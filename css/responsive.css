@@ -1,0 +1,194 @@
+/* ==========================================================================
+   TRUE MUSCLE FITNESS HUB — RESPONSIVE BREAKPOINT SYSTEM
+   Breakpoints: 320px, 375px, 390px, 414px, 768px, 1024px, 1280px, 1440px, 1920px
+   Mobile-First Feel, Touch Smoothness & Zero Horizontal Overflow
+   ========================================================================== */
+
+/* Ultra-Wide & 4K (1920px+) */
+@media (min-width: 1920px) {
+  :root {
+    --container-max: 1600px;
+  }
+  .hero-title {
+    font-size: 8.5rem;
+  }
+  .category-card {
+    width: 380px;
+    height: 500px;
+  }
+}
+
+/* Large Desktop (1280px - 1440px) */
+@media (max-width: 1440px) {
+  .section-spacing {
+    padding-top: 96px;
+    padding-bottom: 96px;
+  }
+}
+
+/* Desktop & Laptop (1024px - 1279px) */
+@media (max-width: 1279px) {
+  .nav-desktop {
+    gap: 20px;
+  }
+  .why-numbers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .footer-top-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+}
+
+/* Tablets (768px - 1023px) */
+@media (max-width: 1023px) {
+  :root {
+    --header-height: 76px;
+  }
+  .nav-desktop {
+    display: none;
+  }
+  .btn-mobile-toggle {
+    display: flex;
+  }
+  .programs-grid {
+    grid-template-columns: 1fr;
+  }
+  .experience-showcase {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .transformation-container {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .calculator-box {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 32px;
+  }
+  .location-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .hero-scroll-indicator {
+    display: none;
+  }
+}
+
+/* Mobile Large & Small Tablets (480px - 767px) */
+@media (max-width: 767px) {
+  .section-spacing {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+  .hero-title {
+    font-size: clamp(3.2rem, 11vw, 4.8rem);
+  }
+  .hero-cta-group {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .hero-cta-group .btn {
+    width: 100%;
+  }
+  .why-numbers-grid {
+    grid-template-columns: 1fr;
+  }
+  .category-card {
+    width: 290px;
+    height: 420px;
+  }
+  .trainer-card {
+    width: 280px;
+    height: 440px;
+  }
+  .ba-slider-wrapper {
+    height: 380px;
+  }
+  .footer-top-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .footer-bottom-bar {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  .modal-dialog {
+    padding: 32px 20px;
+  }
+  .testimonial-quote-card {
+    padding: 32px 20px;
+  }
+  .quote-icon-large {
+    font-size: 4.5rem;
+    top: 16px;
+    right: 20px;
+  }
+}
+
+/* Mobile Screen App Experience (375px - 414px) */
+@media (max-width: 414px) {
+  .container {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .header-actions .btn-primary {
+    display: none; /* Handled by sticky bottom app dock on mobile */
+  }
+  .mobile-sticky-cta-bar {
+    display: flex;
+  }
+  .floating-whatsapp-btn {
+    bottom: 84px; /* Lift above bottom sticky dock */
+    right: 18px;
+    width: 52px;
+    height: 52px;
+  }
+  .hero-section {
+    padding-bottom: 90px;
+  }
+  .stat-num {
+    font-size: 2rem;
+  }
+  .category-card {
+    width: 260px;
+    height: 380px;
+  }
+  .trainer-card {
+    width: 260px;
+    height: 400px;
+  }
+  .transform-stat-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .calc-inputs-col {
+    gap: 16px;
+  }
+}
+
+/* Extra Small Phones (320px) */
+@media (max-width: 350px) {
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  .logo-main-text {
+    font-size: 1.4rem;
+  }
+  .section-title {
+    font-size: 2.4rem;
+  }
+  .category-card {
+    width: 240px;
+    height: 350px;
+  }
+  .ba-slider-wrapper {
+    height: 300px;
+  }
+}
