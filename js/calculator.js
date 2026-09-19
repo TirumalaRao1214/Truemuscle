@@ -52,7 +52,7 @@ class BMICalculator {
     const bmi = (weightKg / (heightM * heightM)).toFixed(1);
 
     let category = "";
-    let color = "#ff2a38";
+    let color = "#0088ff";
     let advice = "";
 
     if (bmi < 18.5) {
@@ -61,15 +61,15 @@ class BMICalculator {
       advice = "Focus on a caloric surplus with progressive resistance training to build dense muscle mass.";
     } else if (bmi >= 18.5 && bmi <= 24.9) {
       category = "Optimal / Athletic";
-      color = "#22c55e";
+      color = "#0088ff";
       advice = "Prime body composition! Elevate athletic performance, strength periodization, and metabolic conditioning.";
     } else if (bmi >= 25 && bmi <= 29.9) {
       category = "Overweight / Bulking";
-      color = "#eab308";
+      color = "#60a5fa";
       advice = "Focus on high-intensity metabolic resistance, calorie deficit, and structured cardio conditioning.";
     } else {
-      category = "Obese / High Body Fat";
-      color = "#ff2a38";
+      category = "High Body Composition Indicator";
+      color = "#2563eb";
       advice = "Prioritize guided personal training, caloric deficit management, and joint-friendly compound movements.";
     }
 

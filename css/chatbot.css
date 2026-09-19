@@ -1,12 +1,12 @@
 /* ==========================================================================
    TRUE MUSCLE FITNESS ASSISTANT CHATBOT DESIGN SYSTEM
-   Brand: Black, Charcoal, White, Red Accent
+   Brand: Black, Deep Charcoal, White, Electric Athletic Blue Accent
    ========================================================================== */
 
 /* Container & Placement */
 .tm-chatbot-container {
   position: fixed;
-  bottom: 104px; /* Stacked directly above floating WhatsApp button (24px + 60px + 20px) */
+  bottom: 104px; /* Stacked directly above floating WhatsApp button (24px + 64px + 16px) */
   right: 24px;
   z-index: 960;
   font-family: var(--font-body, 'Inter', sans-serif);
@@ -16,23 +16,23 @@
 .tm-chatbot-toggle-btn {
   width: 64px;
   height: 64px;
-  background: var(--black, #08090a);
-  border: 2px solid var(--red-accent, #ff2a38);
+  background: var(--black, #080b11);
+  border: 2px solid var(--blue-accent, #0088ff);
   border-radius: 50%;
   color: var(--white, #ffffff);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 8px 30px rgba(255, 42, 56, 0.4), 0 0 20px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 30px rgba(0, 136, 255, 0.4), 0 0 20px rgba(0, 0, 0, 0.6);
   position: relative;
   transition: all var(--transition-normal, 0.35s cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .tm-chatbot-toggle-btn:hover {
   transform: scale(1.08) translateY(-3px);
-  box-shadow: 0 12px 35px rgba(255, 42, 56, 0.6);
-  background: #11141a;
+  box-shadow: 0 12px 35px rgba(0, 136, 255, 0.6);
+  background: #101726;
 }
 
 .tm-chatbot-unread-dot {
@@ -41,10 +41,10 @@
   right: 2px;
   width: 14px;
   height: 14px;
-  background-color: var(--red-accent, #ff2a38);
-  border: 2px solid var(--black, #08090a);
+  background-color: var(--blue-accent, #0088ff);
+  border: 2px solid var(--black, #080b11);
   border-radius: 50%;
-  box-shadow: 0 0 10px var(--red-accent, #ff2a38);
+  box-shadow: 0 0 10px var(--blue-accent, #0088ff);
   animation: pulse-dot 2s infinite ease-in-out;
 }
 
@@ -56,11 +56,11 @@
 .tm-chatbot-btn-tooltip {
   position: absolute;
   right: 78px;
-  background: var(--dark-surface, #14161a);
+  background: var(--dark-surface, #121824);
   color: var(--white, #ffffff);
   padding: 8px 16px;
   border-radius: var(--radius-xs, 4px);
-  border: 1px solid var(--dark-border, rgba(255, 255, 255, 0.08));
+  border: 1px solid var(--dark-border, rgba(255, 255, 255, 0.1));
   font-size: 0.8rem;
   font-weight: 700;
   white-space: nowrap;
@@ -88,7 +88,7 @@
 }
 
 .tm-chatbot-toggle-btn.is-active {
-  background: var(--red-accent, #ff2a38);
+  background: var(--blue-accent, #0088ff);
   border-color: var(--white, #ffffff);
 }
 
@@ -109,10 +109,10 @@
   max-width: calc(100vw - 32px);
   height: 600px;
   max-height: calc(100vh - 100px);
-  background: var(--dark-surface, #14161a);
-  border: 1px solid var(--dark-border, rgba(255, 255, 255, 0.08));
+  background: var(--dark-surface, #121824);
+  border: 1px solid var(--dark-border, rgba(255, 255, 255, 0.1));
   border-radius: var(--radius-md, 14px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 42, 56, 0.15);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 136, 255, 0.2);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -133,8 +133,8 @@
 
 /* Chat Header */
 .tm-chatbot-header {
-  background: linear-gradient(135deg, #0f1115 0%, #171a20 100%);
-  border-bottom: 1px solid var(--dark-border, rgba(255, 255, 255, 0.08));
+  background: linear-gradient(135deg, #0c1018 0%, #172030 100%);
+  border-bottom: 1px solid var(--dark-border, rgba(255, 255, 255, 0.1));
   padding: 16px 20px;
   display: flex;
   align-items: center;
@@ -151,7 +151,7 @@
 .tm-chatbot-header-badge {
   width: 36px;
   height: 36px;
-  background: var(--red-accent, #ff2a38);
+  background: var(--blue-accent, #0088ff);
   color: var(--white, #ffffff);
   font-family: var(--font-display, 'Bebas Neue', sans-serif);
   font-size: 1.3rem;
@@ -160,7 +160,7 @@
   justify-content: center;
   border-radius: var(--radius-xs, 4px);
   transform: skewX(-6deg);
-  box-shadow: 0 0 15px rgba(255, 42, 56, 0.35);
+  box-shadow: 0 0 15px rgba(0, 136, 255, 0.4);
 }
 
 .tm-chatbot-header-text {
@@ -180,7 +180,7 @@
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: var(--red-accent, #ff2a38);
+  color: var(--blue-accent, #0088ff);
   text-transform: uppercase;
 }
 
@@ -212,7 +212,7 @@
 .tm-chat-ctrl-btn {
   background: transparent;
   border: none;
-  color: var(--gray-400, #9ca3af);
+  color: var(--gray-400, #94a3b8);
   cursor: pointer;
   padding: 6px;
   display: flex;
@@ -245,7 +245,7 @@
   background: transparent;
 }
 .tm-chatbot-messages::-webkit-scrollbar-thumb {
-  background: #282c35;
+  background: #283548;
   border-radius: 10px;
 }
 
@@ -273,7 +273,7 @@
 .tm-chat-avatar {
   width: 28px;
   height: 28px;
-  background: var(--red-accent, #ff2a38);
+  background: var(--blue-accent, #0088ff);
   color: var(--white, #ffffff);
   border-radius: var(--radius-xs, 4px);
   font-family: var(--font-display, 'Bebas Neue', sans-serif);
@@ -295,18 +295,18 @@
 }
 
 .tm-chat-bubble-bot {
-  background: var(--dark-card, #191c22);
-  border: 1px solid var(--dark-border, rgba(255, 255, 255, 0.08));
-  color: var(--gray-100, #e5e7eb);
+  background: var(--dark-card, #172030);
+  border: 1px solid var(--dark-border, rgba(255, 255, 255, 0.1));
+  color: var(--gray-100, #e2e8f0);
   border-top-left-radius: 4px;
 }
 
 .tm-chat-bubble-user {
-  background: var(--red-accent, #ff2a38);
+  background: var(--blue-accent, #0088ff);
   color: var(--white, #ffffff);
   border-top-right-radius: 4px;
   font-weight: 500;
-  box-shadow: 0 4px 15px rgba(255, 42, 56, 0.35);
+  box-shadow: 0 4px 15px rgba(0, 136, 255, 0.4);
 }
 
 .tm-chat-btn-group {
@@ -317,8 +317,8 @@
 }
 
 .tm-chat-action-btn {
-  background: var(--dark-surface, #14161a);
-  border: 1px solid var(--dark-border, rgba(255, 255, 255, 0.08));
+  background: var(--dark-surface, #121824);
+  border: 1px solid var(--dark-border, rgba(255, 255, 255, 0.1));
   color: var(--white, #ffffff);
   padding: 10px 14px;
   border-radius: var(--radius-xs, 4px);
@@ -334,20 +334,20 @@
 }
 
 .tm-chat-action-btn:hover {
-  background: #252a33;
-  border-color: var(--red-accent, #ff2a38);
+  background: #1f2c42;
+  border-color: var(--blue-accent, #0088ff);
   transform: translateX(4px);
   color: var(--white, #ffffff);
 }
 
 .tm-chat-action-btn.tm-btn-primary {
-  background: rgba(255, 42, 56, 0.15);
-  border-color: var(--red-accent, #ff2a38);
+  background: rgba(0, 136, 255, 0.15);
+  border-color: var(--blue-accent, #0088ff);
   color: var(--white, #ffffff);
 }
 
 .tm-chat-action-btn.tm-btn-primary:hover {
-  background: var(--red-accent, #ff2a38);
+  background: var(--blue-accent, #0088ff);
 }
 
 .tm-chat-back-row {
@@ -359,7 +359,7 @@
 .tm-chat-back-btn {
   background: transparent;
   border: none;
-  color: var(--gray-400, #9ca3af);
+  color: var(--gray-400, #94a3b8);
   font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
@@ -368,7 +368,7 @@
 }
 
 .tm-chat-back-btn:hover {
-  color: var(--red-accent, #ff2a38);
+  color: var(--blue-accent, #0088ff);
 }
 
 /* Typing Indicator Animation */
@@ -382,7 +382,7 @@
 .typing-dot {
   width: 7px;
   height: 7px;
-  background-color: var(--gray-400, #9ca3af);
+  background-color: var(--gray-400, #94a3b8);
   border-radius: 50%;
   animation: typingBounce 1.4s infinite ease-in-out both;
 }
@@ -392,7 +392,7 @@
 
 @keyframes typingBounce {
   0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-  40% { transform: scale(1); opacity: 1; background-color: var(--red-accent, #ff2a38); }
+  40% { transform: scale(1); opacity: 1; background-color: var(--blue-accent, #0088ff); }
 }
 
 /* Quick Action Chips Bar */
@@ -402,8 +402,8 @@
   padding: 10px 16px;
   overflow-x: auto;
   white-space: nowrap;
-  background: var(--dark-surface, #14161a);
-  border-top: 1px solid var(--dark-border, rgba(255, 255, 255, 0.08));
+  background: var(--dark-surface, #121824);
+  border-top: 1px solid var(--dark-border, rgba(255, 255, 255, 0.1));
   scrollbar-width: none;
   flex-shrink: 0;
 }
@@ -414,8 +414,8 @@
 
 .tm-chat-chip-btn {
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--dark-border, rgba(255, 255, 255, 0.08));
-  color: var(--gray-300, #d1d5db);
+  border: 1px solid var(--dark-border, rgba(255, 255, 255, 0.1));
+  color: var(--gray-300, #cbd5e1);
   padding: 6px 14px;
   border-radius: 9999px;
   font-size: 0.72rem;
@@ -428,8 +428,8 @@
 }
 
 .tm-chat-chip-btn:hover {
-  background: var(--red-accent, #ff2a38);
-  border-color: var(--red-accent, #ff2a38);
+  background: var(--blue-accent, #0088ff);
+  border-color: var(--blue-accent, #0088ff);
   color: var(--white, #ffffff);
   transform: translateY(-2px);
 }
@@ -440,15 +440,15 @@
   align-items: center;
   gap: 8px;
   padding: 12px 16px;
-  background: #0f1115;
-  border-top: 1px solid var(--dark-border, rgba(255, 255, 255, 0.08));
+  background: #090d14;
+  border-top: 1px solid var(--dark-border, rgba(255, 255, 255, 0.1));
   flex-shrink: 0;
 }
 
 .tm-chatbot-input {
   flex: 1;
-  background: var(--dark-surface, #14161a);
-  border: 1px solid var(--dark-border, rgba(255, 255, 255, 0.08));
+  background: var(--dark-surface, #121824);
+  border: 1px solid var(--dark-border, rgba(255, 255, 255, 0.1));
   border-radius: 9999px;
   padding: 12px 18px;
   color: var(--white, #ffffff);
@@ -458,14 +458,14 @@
 }
 
 .tm-chatbot-input:focus {
-  border-color: var(--red-accent, #ff2a38);
-  box-shadow: 0 0 10px rgba(255, 42, 56, 0.35);
+  border-color: var(--blue-accent, #0088ff);
+  box-shadow: 0 0 10px rgba(0, 136, 255, 0.4);
 }
 
 .tm-chatbot-send-btn {
   width: 42px;
   height: 42px;
-  background: var(--red-accent, #ff2a38);
+  background: var(--blue-accent, #0088ff);
   border: none;
   border-radius: 50%;
   color: var(--white, #ffffff);
@@ -475,11 +475,11 @@
   cursor: pointer;
   transition: all var(--transition-fast, 0.2s cubic-bezier(0.16, 1, 0.3, 1));
   flex-shrink: 0;
-  box-shadow: 0 4px 15px rgba(255, 42, 56, 0.35);
+  box-shadow: 0 4px 15px rgba(0, 136, 255, 0.4);
 }
 
 .tm-chatbot-send-btn:hover {
-  background: #e01d2a;
+  background: #0066dd;
   transform: scale(1.05);
 }
 
