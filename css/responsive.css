@@ -171,18 +171,18 @@
     display: flex;
   }
   .floating-whatsapp-btn {
-    bottom: 82px;
-    right: 16px;
-    width: 52px;
-    height: 52px;
+    bottom: 80px;
+    right: 80px;
+    width: 58px;
+    height: 58px;
   }
   .tm-chatbot-container {
-    bottom: 82px;
-    right: 76px; /* Positioned neatly to left of WhatsApp on bottom mobile dock */
+    bottom: 80px;
+    right: 16px;
   }
   .tm-chatbot-toggle-btn {
-    width: 52px;
-    height: 52px;
+    width: 58px;
+    height: 58px;
   }
   .tm-chatbot-panel {
     position: fixed;
@@ -191,7 +191,7 @@
     right: 12px;
     width: calc(100vw - 24px);
     max-width: 100%;
-    height: calc(100vh - 140px);
+    height: min(650px, calc(100vh - 100px));
     max-height: 80vh;
   }
   .hero-section {

@@ -1,6 +1,8 @@
 /**
- * True Muscle Fitness Hub — Interactive Fitness Assistant Chatbot
- * Modular, extensible architecture with keyword matching, lead conversion, and future AI/API readiness.
+ * True Muscle Fitness Hub — Fitness Assistant Chatbot Engine
+ * Brand: TRUE MUSCLE FITNESS ASSISTANT (Your Fitness Guide)
+ * Fully clientside JavaScript implementation reading directly from GYM_CONFIG.
+ * Designed with a modular getBotResponse(message) structure for future AI/API backend compatibility.
  */
 
 class TMFitnessAssistant {
@@ -19,7 +21,6 @@ class TMFitnessAssistant {
 
     // Conversation State
     this.history = [];
-    this.leadFlowState = null; // { step: 'name'|'phone'|'goal'|'confirm', data: {} }
     this.isOpen = false;
 
     this.init();
@@ -43,6 +44,13 @@ class TMFitnessAssistant {
       this.clearBtn.addEventListener('click', () => this.clearChat());
     }
 
+    // Escape key closes chatbot (accessibility requirement)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.isOpen) {
+        this.closeChat();
+      }
+    });
+
     // Input submission
     if (this.inputForm) {
       this.inputForm.addEventListener('submit', (e) => {
@@ -55,7 +63,7 @@ class TMFitnessAssistant {
       });
     }
 
-    // Render initial message if empty
+    // Render initial message & chips
     this.renderInitialGreeting();
     this.renderDefaultChips();
   }
@@ -87,7 +95,6 @@ class TMFitnessAssistant {
 
   clearChat() {
     this.history = [];
-    this.leadFlowState = null;
     if (this.messagesList) this.messagesList.innerHTML = '';
     this.renderInitialGreeting();
     this.renderDefaultChips();
@@ -100,16 +107,17 @@ class TMFitnessAssistant {
   }
 
   renderInitialGreeting() {
-    const greetingText = `Hi 👋\nWelcome to True Muscle Fitness Hub.\n\nI'm your fitness assistant.\n\nWhat can I help you with today?`;
+    const greetingText = "Hi 👋\nWelcome to True Muscle Fitness Hub.\n\nI'm your fitness assistant.\n\nWhat are you looking for today?";
     this.appendBotMessage(greetingText, [
       { text: "🏋️ Memberships", action: "memberships" },
       { text: "💪 Training Programs", action: "programs" },
       { text: "🔥 Fat Loss", action: "fatloss" },
-      { text: "💪 Muscle Building", action: "muscle" },
+      { text: "🏋️ Muscle Building", action: "muscle" },
       { text: "👤 Personal Training", action: "personaltraining" },
       { text: "📅 Book Free Trial", action: "freetrial" },
-      { text: "📍 Gym Location", action: "location" },
-      { text: "🕐 Opening Hours", action: "hours" }
+      { text: "📍 Location", action: "location" },
+      { text: "🕐 Gym Timings", action: "hours" },
+      { text: "💬 WhatsApp", action: "whatsapp" }
     ]);
   }
 
@@ -118,9 +126,12 @@ class TMFitnessAssistant {
     const chips = [
       { label: "MEMBERSHIPS", action: "memberships" },
       { label: "PROGRAMS", action: "programs" },
-      { label: "COACHES", action: "trainers" },
+      { label: "FAT LOSS", action: "fatloss" },
+      { label: "MUSCLE BUILDING", action: "muscle" },
+      { label: "PERSONAL TRAINING", action: "personaltraining" },
       { label: "FREE TRIAL", action: "freetrial" },
       { label: "LOCATION", action: "location" },
+      { label: "TIMINGS", action: "hours" },
       { label: "WHATSAPP", action: "whatsapp" }
     ];
 
@@ -138,6 +149,7 @@ class TMFitnessAssistant {
   appendUserMessage(text) {
     const msgEl = document.createElement('div');
     msgEl.className = 'tm-chat-msg tm-chat-msg-user';
+    msgEl.setAttribute('role', 'status');
     msgEl.innerHTML = `<div class="tm-chat-bubble tm-chat-bubble-user">${this.escapeHtml(text)}</div>`;
     this.messagesList.appendChild(msgEl);
     this.scrollToBottom();
@@ -172,8 +184,9 @@ class TMFitnessAssistant {
 
       const msgEl = document.createElement('div');
       msgEl.className = 'tm-chat-msg tm-chat-msg-bot';
+      msgEl.setAttribute('role', 'status');
 
-      let formattedText = this.escapeHtml(text).replace(/\n/g, '<br>');
+      const formattedText = this.escapeHtml(text).replace(/\n/g, '<br>');
 
       let buttonsHtml = '';
       if (buttons && buttons.length > 0) {
@@ -200,22 +213,22 @@ class TMFitnessAssistant {
 
       this.messagesList.appendChild(msgEl);
 
-      // Bind button events
+      // Bind button click events
       const btnEls = msgEl.querySelectorAll('.tm-chat-action-btn');
       btnEls.forEach((btnEl, idx) => {
         const btnData = buttons[idx];
         btnEl.addEventListener('click', () => {
           if (btnData.url) {
             window.open(btnData.url, '_blank');
-          } else if (btnData.openModal) {
-            if (window.tmLeadEngine) window.tmLeadEngine.openModal(btnData.goalPrefill);
+          } else if (btnData.openTrial) {
+            this.triggerFreeTrial(btnData.goalPrefill);
           } else if (btnData.action) {
             this.handleAction(btnData.action, btnData.text, btnData.payload);
           }
         });
       });
 
-      // Bind back button event
+      // Bind back button click
       const backBtnEl = msgEl.querySelector('.tm-chat-back-btn');
       if (backBtnEl && backAction) {
         backBtnEl.addEventListener('click', () => {
@@ -224,74 +237,118 @@ class TMFitnessAssistant {
       }
 
       this.scrollToBottom();
-    }, 380);
+    }, 450);
   }
 
+  /**
+   * Triggers the existing Free Trial modal or scrolls smoothly to the section
+   */
+  triggerFreeTrial(goalPrefill) {
+    this.closeChat();
+    if (window.tmLeadEngine && typeof window.tmLeadEngine.openModal === 'function') {
+      window.tmLeadEngine.openModal(goalPrefill);
+    } else {
+      const modal = document.getElementById('freeTrialModal');
+      if (modal) {
+        modal.classList.add('is-active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+  }
+
+  /**
+   * Process user typed messages through structured handler
+   * Extensible: can be swapped with async getBotResponse(message) for future AI API
+   */
   handleUserMessage(rawText) {
     this.appendUserMessage(rawText);
     const text = rawText.toLowerCase().trim();
 
-    // 1. Check if user is currently inside interactive Lead Capture Flow
-    if (this.leadFlowState) {
-      this.handleLeadFlowInput(rawText);
-      return;
-    }
-
-    // 2. Medical keyword check (Responsible guidance disclaimer)
-    if (text.includes('pain') || text.includes('injury') || text.includes('disease') || text.includes('medicine') || text.includes('cure') || text.includes('doctor') || text.includes('blood pressure') || text.includes('diabetes')) {
+    // 1. Medical questions check
+    if (text.includes('pain') || text.includes('injury') || text.includes('cure') || text.includes('medicine') || text.includes('doctor') || text.includes('disease') || text.includes('bp') || text.includes('blood pressure') || text.includes('diabetes')) {
       this.appendBotMessage(
-        "I can provide general fitness and training information, but for medical conditions or specific injuries, please consult a qualified healthcare professional.\n\nOur certified coaches can also customize low-impact rehab or mobility routines for you.",
+        "I can provide general fitness information, but I can't diagnose medical conditions. For medical concerns, please consult a qualified healthcare professional.",
         [
-          { text: "👤 TALK TO A TRAINER", action: "startlead_pt" },
-          { text: "📅 BOOK FREE TRIAL", action: "freetrial" }
+          { text: "TALK TO GYM", action: "whatsapp" },
+          { text: "BOOK FREE TRIAL", action: "freetrial" }
         ],
         "home"
       );
       return;
     }
 
-    // 3. Keyword Pattern Matching
-    if (text.includes('membership') || text.includes('price') || text.includes('pricing') || text.includes('cost') || text.includes('fee') || text.includes('plan')) {
-      this.handleAction('memberships', rawText);
-    } else if (text.includes('muscle') || text.includes('hypertrophy') || text.includes('bulk') || text.includes('biceps') || text.includes('size')) {
-      this.handleAction('muscle', rawText);
-    } else if (text.includes('fat loss') || text.includes('weight loss') || text.includes('lose weight') || text.includes('diet') || text.includes('shred') || text.includes('belly fat') || text.includes('burn fat')) {
-      this.handleAction('fatloss', rawText);
-    } else if (text.includes('strength') || text.includes('powerlifting') || text.includes('squat') || text.includes('deadlift') || text.includes('bench')) {
-      this.handleAction('strength', rawText);
-    } else if (text.includes('personal train') || text.includes('pt') || text.includes('coach') || text.includes('trainer') || text.includes('one on one') || text.includes('1 on 1')) {
-      this.handleAction('personaltraining', rawText);
-    } else if (text.includes('location') || text.includes('address') || text.includes('where') || text.includes('guntur') || text.includes('place') || text.includes('map')) {
-      this.handleAction('location', rawText);
-    } else if (text.includes('timing') || text.includes('time') || text.includes('hour') || text.includes('open') || text.includes('sunday') || text.includes('morning') || text.includes('night')) {
-      this.handleAction('hours', rawText);
-    } else if (text.includes('trial') || text.includes('free trial') || text.includes('book') || text.includes('session') || text.includes('visit') || text.includes('demo')) {
-      this.handleAction('freetrial', rawText);
-    } else if (text.includes('join') || text.includes('joining') || text.includes('admission') || text.includes('start')) {
-      this.handleAction('join', rawText);
-    } else if (text.includes('whatsapp') || text.includes('chat') || text.includes('number') || text.includes('contact') || text.includes('phone') || text.includes('call')) {
-      this.handleAction('whatsapp', rawText);
-    } else if (text.includes('program') || text.includes('routine') || text.includes('workout') || text.includes('class')) {
-      this.handleAction('programs', rawText);
-    } else if (text.includes('hi') || text.includes('hello') || text.includes('hey') || text.includes('good morning') || text.includes('good evening')) {
+    // 2. Buying / Joining intent
+    if (text === 'i want to join' || text.includes('how to join') || text.includes('how can i join') || text.includes('join') || text.includes('admission')) {
       this.appendBotMessage(
-        "Hey! Ready to train? Let's find the best workout program and plan for your fitness transformation.",
+        "Absolutely. The easiest way to get started is with a free trial.\n\nWould you like to book one?",
         [
-          { text: "🏋️ VIEW MEMBERSHIPS", action: "memberships" },
-          { text: "💪 EXPLORE PROGRAMS", action: "programs" },
-          { text: "📅 BOOK FREE TRIAL", action: "freetrial" }
+          { text: "YES, BOOK TRIAL", action: "freetrial", primary: true },
+          { text: "VIEW MEMBERSHIPS", action: "memberships" }
+        ],
+        "home"
+      );
+      return;
+    }
+
+    // 3. Price / Cost / Fees intent
+    if (text.includes('how much') || text.includes('price') || text.includes('cost') || text.includes('fees') || text.includes('fee')) {
+      this.appendBotMessage(
+        "Our membership options include monthly, quarterly, half-yearly and annual plans.\n\nWhich one would you like to see?",
+        [
+          { text: "MONTHLY", action: "plan_details", payload: "Monthly" },
+          { text: "QUARTERLY", action: "plan_details", payload: "Quarterly" },
+          { text: "HALF YEARLY", action: "plan_details", payload: "Half Yearly", primary: true },
+          { text: "ANNUAL", action: "plan_details", payload: "Annual" },
+          { text: "PERSONAL TRAINING", action: "plan_details", payload: "Personal" }
+        ],
+        "home"
+      );
+      return;
+    }
+
+    // 4. Keyword Routing
+    if (text.includes('membership') || text.includes('plan')) {
+      this.handleAction('memberships', rawText);
+    } else if (text.includes('muscle') || text.includes('hypertrophy') || text.includes('bulk')) {
+      this.handleAction('muscle', rawText);
+    } else if (text.includes('fat loss') || text.includes('weight loss') || text.includes('lose weight') || text.includes('diet') || text.includes('shred')) {
+      this.handleAction('fatloss', rawText);
+    } else if (text.includes('strength') || text.includes('powerlifting') || text.includes('squat') || text.includes('deadlift')) {
+      this.handleAction('strength', rawText);
+    } else if (text.includes('personal train') || text.includes('trainer') || text.includes('coach') || text.includes('pt')) {
+      this.handleAction('personaltraining', rawText);
+    } else if (text.includes('location') || text.includes('address') || text.includes('where')) {
+      this.handleAction('location', rawText);
+    } else if (text.includes('timing') || text.includes('hour') || text.includes('open') || text.includes('sunday')) {
+      this.handleAction('hours', rawText);
+    } else if (text.includes('trial') || text.includes('book')) {
+      this.handleAction('freetrial', rawText);
+    } else if (text.includes('whatsapp') || text.includes('contact') || text.includes('phone') || text.includes('call')) {
+      this.handleAction('whatsapp', rawText);
+    } else if (text.includes('program') || text.includes('workout') || text.includes('routine')) {
+      this.handleAction('programs', rawText);
+    } else if (text.includes('hi') || text.includes('hello') || text.includes('hey')) {
+      this.appendBotMessage(
+        "Hi 👋 Welcome to True Muscle Fitness Hub. What are you looking for today?",
+        [
+          { text: "🏋️ Memberships", action: "memberships" },
+          { text: "💪 Training Programs", action: "programs" },
+          { text: "📅 Book Free Trial", action: "freetrial" },
+          { text: "📍 Location", action: "location" }
         ],
         "home"
       );
     } else {
-      // General Fallback
+      // 5. Unknown question fallback
       this.appendBotMessage(
-        "I'm here to help you get stronger and achieve your goals at True Muscle Fitness Hub. What would you like to explore?",
+        "I'm still learning about True Muscle Fitness Hub.\n\nI can help you with:\n• Memberships\n• Training Programs\n• Personal Training\n• Free Trial\n• Location\n• Gym Timings\n\nWhat would you like to know?",
         [
-          { text: "🏋️ MEMBERSHIPS", action: "memberships" },
-          { text: "💪 TRAINING PROGRAMS", action: "programs" },
-          { text: "📅 BOOK FREE TRIAL", action: "freetrial" },
-          { text: "📍 LOCATION & TIMING", action: "location" }
+          { text: "🏋️ Memberships", action: "memberships" },
+          { text: "💪 Training Programs", action: "programs" },
+          { text: "👤 Personal Training", action: "personaltraining" },
+          { text: "📅 Book Free Trial", action: "freetrial" },
+          { text: "📍 Location", action: "location" },
+          { text: "🕐 Gym Timings", action: "hours" }
         ],
         "home"
       );
@@ -310,32 +367,35 @@ class TMFitnessAssistant {
 
       case 'memberships':
         this.appendBotMessage(
-          "We offer flexible membership plans engineered around your long-term fitness transformation:\n\nChoose a plan to view details:",
+          "We have different membership options for your training goals.\n\nWhich plan would you like to know about?",
           [
-            { text: "MONTHLY PLAN", action: "plan_details", payload: "Monthly" },
-            { text: "QUARTERLY PLAN", action: "plan_details", payload: "Quarterly" },
-            { text: "HALF YEARLY (BEST VALUE)", action: "plan_details", payload: "Half Yearly", primary: true },
-            { text: "ANNUAL PASS", action: "plan_details", payload: "Annual" },
-            { text: "1-ON-1 PERSONAL TRAINING", action: "startlead_pt" }
+            { text: "MONTHLY", action: "plan_details", payload: "Monthly" },
+            { text: "QUARTERLY", action: "plan_details", payload: "Quarterly" },
+            { text: "HALF YEARLY", action: "plan_details", payload: "Half Yearly", primary: true },
+            { text: "ANNUAL", action: "plan_details", payload: "Annual" },
+            { text: "PERSONAL TRAINING", action: "plan_details", payload: "Personal" }
           ],
           "home"
         );
         break;
 
       case 'plan_details':
-        const planName = payload || 'Membership';
-        const planObj = GYM_CONFIG.membershipPlans.find(p => p.name.toLowerCase().includes(planName.toLowerCase())) || GYM_CONFIG.membershipPlans[0];
-        const isCustomPrice = planObj.price === "₹XXXX";
-        
-        const priceText = isCustomPrice 
-          ? "Please contact True Muscle Fitness Hub for current membership pricing and special seasonal offers." 
-          : `${planObj.price} ${planObj.period}`;
+        const planName = payload || 'Monthly';
+        const planObj = (GYM_CONFIG.membershipPlans || []).find(p => p.name.toLowerCase().includes(planName.toLowerCase())) || 
+                        (GYM_CONFIG.membershipPlans ? GYM_CONFIG.membershipPlans[0] : null);
+
+        const hasConfiguredPrice = planObj && planObj.price && planObj.price !== "₹XXXX";
+        const priceDisplay = hasConfiguredPrice 
+          ? `${planObj.price} ${planObj.period || ''}`
+          : "Please contact True Muscle Fitness Hub for the latest pricing.";
+
+        const planTitle = planObj ? `${planObj.name} PLAN` : `${planName.toUpperCase()} PLAN`;
 
         this.appendBotMessage(
-          `🏷️ ${planObj.name} PLAN (${planObj.tagline})\n\n💰 Price: ${priceText}\n\n✓ Full Strength & Cardio Arena Access\n✓ Biomechanical Equipment\n✓ Locker & Shower Amenities\n✓ Fitness Assessment`,
+          `🏷️ ${planTitle}\n\n${priceDisplay}\n\n✓ Full Gym & Strength Floor Access\n✓ Biomechanical Machines\n✓ Locker & Shower Amenities\n✓ Fitness Assessment`,
           [
-            { text: "💬 INQUIRE ON WHATSAPP", url: `https://wa.me/${GYM_CONFIG.whatsappNumber}?text=${GYM_CONFIG.whatsappTemplates.membershipInquiry(planObj.name)}`, primary: true },
-            { text: "📅 BOOK FREE TRIAL FIRST", action: "freetrial" },
+            { text: "BOOK FREE TRIAL", action: "freetrial", primary: true },
+            { text: "CONTACT GYM", action: "whatsapp" },
             { text: "← OTHER PLANS", action: "memberships" }
           ],
           "memberships"
@@ -344,12 +404,14 @@ class TMFitnessAssistant {
 
       case 'programs':
         this.appendBotMessage(
-          "Our science-backed training curriculums focus on progressive overload, biomechanics, and personalized results.\n\nWhich discipline interests you?",
+          "Choose your training goal:",
           [
-            { text: "💪 MUSCLE BUILDING", action: "muscle" },
-            { text: "🔥 FAT LOSS & CONDITIONING", action: "fatloss" },
-            { text: "⚡ MAXIMUM STRENGTH", action: "strength" },
-            { text: "👤 1-ON-1 COACHING", action: "personaltraining" }
+            { text: "MUSCLE BUILDING", action: "muscle" },
+            { text: "FAT LOSS", action: "fatloss" },
+            { text: "STRENGTH", action: "strength" },
+            { text: "FUNCTIONAL FITNESS", action: "functional" },
+            { text: "CARDIO", action: "cardio" },
+            { text: "PERSONAL TRAINING", action: "personaltraining" }
           ],
           "home"
         );
@@ -357,11 +419,10 @@ class TMFitnessAssistant {
 
       case 'muscle':
         this.appendBotMessage(
-          "Great! Our Muscle Building & Hypertrophy program focuses on structured resistance splits, progressive overload, and biomechanical machines to build dense size safely.",
+          "Want to build muscle?\n\nTrue Muscle's strength-focused training can help you work toward your muscle-building goals through structured workouts and progressive training.\n\nWould you like to book a free trial?",
           [
-            { text: "📅 BOOK FREE TRIAL", action: "freetrial", goalPrefill: "Muscle Building & Hypertrophy", openModal: true, primary: true },
-            { text: "👤 TALK TO A TRAINER", action: "startlead_pt", payload: "Muscle Building" },
-            { text: "🏋️ VIEW MEMBERSHIPS", action: "memberships" }
+            { text: "BOOK FREE TRIAL", action: "freetrial", openTrial: true, goalPrefill: "Muscle Building & Hypertrophy", primary: true },
+            { text: "TALK TO TRAINER", action: "whatsapp" }
           ],
           "programs"
         );
@@ -369,11 +430,10 @@ class TMFitnessAssistant {
 
       case 'fatloss':
         this.appendBotMessage(
-          "For Fat Loss & Shredding, we combine metabolic resistance circuits, HIIT conditioning, and daily activity tracking to burn stubborn fat while keeping lean muscle.",
+          "Looking to improve your fitness and lose body fat?\n\nWe can help you explore structured training and conditioning options.\n\nWould you like to start with a free trial?",
           [
-            { text: "📅 BOOK FREE TRIAL", action: "freetrial", goalPrefill: "Fat Loss & Weight Management", openModal: true, primary: true },
-            { text: "👤 TALK TO A TRAINER", action: "startlead_pt", payload: "Fat Loss" },
-            { text: "🏋️ VIEW MEMBERSHIPS", action: "memberships" }
+            { text: "BOOK FREE TRIAL", action: "freetrial", openTrial: true, goalPrefill: "Fat Loss & Weight Management", primary: true },
+            { text: "VIEW PROGRAMS", action: "programs" }
           ],
           "programs"
         );
@@ -381,11 +441,32 @@ class TMFitnessAssistant {
 
       case 'strength':
         this.appendBotMessage(
-          "Our Maximum Strength program focuses on compound barbell movements (Squats, Deadlifts, Bench, Overhead Press) calibrated for pure athletic power and periodized loads.",
+          "Strength training focuses on progressively improving your ability to perform resistance exercises.\n\nReady to experience the gym?",
           [
-            { text: "📅 BOOK FREE TRIAL", action: "freetrial", goalPrefill: "Strength Training", openModal: true, primary: true },
-            { text: "👤 CONNECT WITH HEAD COACH", action: "startlead_pt", payload: "Strength Training" },
-            { text: "🏋️ VIEW MEMBERSHIPS", action: "memberships" }
+            { text: "BOOK FREE TRIAL", action: "freetrial", openTrial: true, goalPrefill: "Strength Training", primary: true },
+            { text: "VIEW PROGRAMS", action: "programs" }
+          ],
+          "programs"
+        );
+        break;
+
+      case 'functional':
+        this.appendBotMessage(
+          "Functional fitness builds real-world athletic agility, joint resilience, and dynamic power using turf tracks, kettlebells, and plyometrics.\n\nReady to train?",
+          [
+            { text: "BOOK FREE TRIAL", action: "freetrial", openTrial: true, goalPrefill: "Functional Training", primary: true },
+            { text: "VIEW PROGRAMS", action: "programs" }
+          ],
+          "programs"
+        );
+        break;
+
+      case 'cardio':
+        this.appendBotMessage(
+          "Our cardio and endurance deck features commercial curved treadmills, air bikes, and rowing ergs to elevate VO2 max and aerobic fitness.",
+          [
+            { text: "BOOK FREE TRIAL", action: "freetrial", openTrial: true, goalPrefill: "Cardio & Conditioning", primary: true },
+            { text: "VIEW PROGRAMS", action: "programs" }
           ],
           "programs"
         );
@@ -393,159 +474,61 @@ class TMFitnessAssistant {
 
       case 'personaltraining':
         this.appendBotMessage(
-          "Focused coaching. Individual attention. Our certified Master Coaches provide dedicated 1-on-1 form correction, tailored meal plans, and weekly body scans.",
+          "Looking for one-on-one guidance?\n\nI can help you get started with personal training.",
           [
-            { text: "⚡ CONNECT WITH A COACH", action: "startlead_pt", payload: "Personal Training", primary: true },
-            { text: "📅 BOOK FREE TRIAL", action: "freetrial" },
-            { text: "💬 WHATSAPP DIRECT", action: "whatsapp" }
+            { text: "BOOK FREE TRIAL", action: "freetrial", openTrial: true, goalPrefill: "Personal Training", primary: true },
+            { text: "CONTACT TRAINER", action: "whatsapp" }
           ],
           "programs"
         );
         break;
 
-      case 'trainers':
-        this.appendBotMessage(
-          "Meet our certified coaches:\n\n• Coach Arjun V. — Head Strength & CSCS (8+ yrs)\n• Coach Priya S. — Functional & Fat Loss (6+ yrs)\n• Coach Rajesh K. — Hypertrophy & ISSA Master (10+ yrs)\n• Coach Sneha R. — Mobility & NASM (5+ yrs)\n\nWould you like to book a session with a coach?",
-          [
-            { text: "👤 BOOK COACH CONSULTATION", action: "startlead_pt", primary: true },
-            { text: "📅 BOOK FREE TRIAL", action: "freetrial" }
-          ],
-          "home"
-        );
-        break;
-
       case 'location':
         this.appendBotMessage(
-          `📍 True Muscle Fitness Hub is located at:\n\n${GYM_CONFIG.address}\n\n(Centrally located on Nagaram Palem Main Road, Guntur)`,
+          `True Muscle Fitness Hub is located at:\n\n${GYM_CONFIG.address}`,
           [
-            { text: "🗺️ GET DIRECTIONS (GOOGLE MAPS)", url: GYM_CONFIG.addressParts.googleMapsUrl, primary: true },
-            { text: "💬 WHATSAPP LOCATION PIN", action: "whatsapp" },
-            { text: "🕐 VIEW OPENING HOURS", action: "hours" }
+            { text: "GET DIRECTIONS", url: (GYM_CONFIG.addressParts && GYM_CONFIG.addressParts.googleMapsUrl) || `https://maps.google.com/?q=${encodeURIComponent(GYM_CONFIG.address)}`, primary: true },
+            { text: "WHATSAPP", action: "whatsapp" }
           ],
           "home"
         );
         break;
 
       case 'hours':
+        const timingsText = GYM_CONFIG.openingHours || 
+          (GYM_CONFIG.hours ? `Monday – Saturday: ${GYM_CONFIG.hours.weekdays}\nSunday: ${GYM_CONFIG.hours.sunday}` : "Please contact True Muscle Fitness Hub for today's timings.");
+
         this.appendBotMessage(
-          `🕐 Gym Operating Timings:\n\n• Monday – Saturday: ${GYM_CONFIG.hours.weekdays}\n• Sunday: ${GYM_CONFIG.hours.sunday}\n\nDedicated morning and evening strength slots available.`,
+          `Our gym timings are:\n\n${timingsText}`,
           [
-            { text: "📅 BOOK FREE TRIAL", action: "freetrial", primary: true },
-            { text: "📍 GET DIRECTIONS", action: "location" }
+            { text: "WHATSAPP", action: "whatsapp", primary: true },
+            { text: "BOOK FREE TRIAL", action: "freetrial" }
           ],
           "home"
         );
         break;
 
-      case 'join':
       case 'freetrial':
-        this.appendBotMessage(
-          "You can start your fitness journey with a complimentary trial session at True Muscle Fitness Hub!",
-          [
-            { text: "📅 OPEN FREE TRIAL FORM", openModal: true, primary: true },
-            { text: "💬 INQUIRE ON WHATSAPP", action: "whatsapp" }
-          ],
-          "home"
-        );
+        this.triggerFreeTrial();
         break;
 
       case 'whatsapp':
-        const inquiryMsg = GYM_CONFIG.whatsappTemplates.quickInquiry();
-        const waUrl = `https://wa.me/${GYM_CONFIG.whatsappNumber}?text=${inquiryMsg}`;
+        const defaultMsg = encodeURIComponent("Hi True Muscle Fitness Hub,\n\nI would like to know more about your gym memberships and training programs.");
+        const waUrl = `https://wa.me/${GYM_CONFIG.whatsappNumber}?text=${defaultMsg}`;
         window.open(waUrl, '_blank');
         this.appendBotMessage(
-          "Opening WhatsApp chat with True Muscle Fitness Hub now. Let us know if you need anything else!",
+          "Opening WhatsApp chat with True Muscle Fitness Hub now. Let us know if you have any other questions!",
           [
-            { text: "📅 BOOK FREE TRIAL", action: "freetrial" },
-            { text: "🏋️ VIEW MEMBERSHIPS", action: "memberships" }
+            { text: "BOOK FREE TRIAL", action: "freetrial" },
+            { text: "VIEW MEMBERSHIPS", action: "memberships" }
           ],
           "home"
-        );
-        break;
-
-      case 'startlead_pt':
-        this.leadFlowState = {
-          step: 'name',
-          interest: payload || 'Personal Training',
-          data: {}
-        };
-        this.appendBotMessage(
-          `Great! I can connect you directly with our coaching team for ${this.leadFlowState.interest}.\n\nWhat is your full name?`
         );
         break;
 
       default:
         this.renderInitialGreeting();
     }
-  }
-
-  handleLeadFlowInput(input) {
-    if (!this.leadFlowState) return;
-
-    if (this.leadFlowState.step === 'name') {
-      const name = input.trim();
-      if (name.length < 2) {
-        this.appendBotMessage("Please share your full name so our coach can address you properly:");
-        return;
-      }
-      this.leadFlowState.data.name = name;
-      this.leadFlowState.step = 'phone';
-      this.appendBotMessage(`Thanks ${name}! What is your 10-digit WhatsApp mobile number?`);
-      return;
-    }
-
-    if (this.leadFlowState.step === 'phone') {
-      const rawPhone = input.trim().replace(/[\s\-\+]/g, '');
-      const indianPhoneRegex = /^(?:91)?[6-9]\d{9}$/;
-      if (!indianPhoneRegex.test(rawPhone)) {
-        this.appendBotMessage("Please enter a valid 10-digit mobile number:");
-        return;
-      }
-      this.leadFlowState.data.phone = rawPhone;
-      this.leadFlowState.step = 'goal';
-      this.appendBotMessage(
-        "Awesome. What is your primary fitness goal?",
-        [
-          { text: "Muscle Building & Hypertrophy", action: "lead_goal_select", payload: "Muscle Building & Hypertrophy" },
-          { text: "Fat Loss & Weight Management", action: "lead_goal_select", payload: "Fat Loss & Weight Management" },
-          { text: "Strength & Powerlifting", action: "lead_goal_select", payload: "Strength Training" },
-          { text: "General Fitness & Health", action: "lead_goal_select", payload: "General Fitness" }
-        ]
-      );
-      return;
-    }
-
-    if (this.leadFlowState.step === 'goal') {
-      this.leadFlowState.data.goal = input.trim();
-      this.finishLeadFlow();
-    }
-  }
-
-  finishLeadFlow(selectedGoal) {
-    if (selectedGoal) {
-      this.leadFlowState.data.goal = selectedGoal;
-    }
-
-    const leadData = {
-      name: this.leadFlowState.data.name,
-      phone: this.leadFlowState.data.phone,
-      goal: this.leadFlowState.data.goal || 'General Fitness',
-      interest: this.leadFlowState.interest || 'Personal Training'
-    };
-
-    const waEncoded = GYM_CONFIG.whatsappTemplates.chatbotLead(leadData);
-    const waUrl = `https://wa.me/${GYM_CONFIG.whatsappNumber}?text=${waEncoded}`;
-
-    this.leadFlowState = null; // reset flow
-
-    this.appendBotMessage(
-      `✓ All set, ${leadData.name}!\n\nYour inquiry for ${leadData.interest} (${leadData.goal}) is ready to send to True Muscle Fitness Hub.`,
-      [
-        { text: "💬 SEND DETAILS ON WHATSAPP", url: waUrl, primary: true },
-        { text: "📅 BOOK FREE TRIAL", action: "freetrial" }
-      ],
-      "home"
-    );
   }
 
   escapeHtml(str) {
