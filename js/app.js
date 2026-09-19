@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.initCarousels) window.initCarousels();
   if (window.initBMICalculator) window.initBMICalculator();
   if (window.initWhatsAppEngine) window.initWhatsAppEngine();
+  if (window.initFitnessAssistant) window.initFitnessAssistant();
   if (window.initAnimations) window.initAnimations();
 
   // 5. Dynamic Membership Click Handling

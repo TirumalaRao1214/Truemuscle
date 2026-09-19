@@ -119,8 +119,15 @@
     gap: 12px;
     text-align: center;
   }
+  .form-grid-layout {
+    grid-template-columns: 1fr;
+  }
+  .form-group-custom.col-half {
+    grid-column: 1 / -1;
+  }
   .modal-dialog {
     padding: 32px 20px;
+    width: calc(100vw - 32px);
   }
   .testimonial-quote-card {
     padding: 32px 20px;
@@ -129,6 +136,25 @@
     font-size: 4.5rem;
     top: 16px;
     right: 20px;
+  }
+
+  /* Chatbot on Tablets and Phablets */
+  .tm-chatbot-container {
+    right: 18px;
+    bottom: 84px;
+  }
+  .tm-chatbot-toggle-btn {
+    width: 58px;
+    height: 58px;
+  }
+  .tm-chatbot-panel {
+    position: fixed;
+    bottom: 80px;
+    right: 12px;
+    width: calc(100vw - 24px);
+    max-width: 420px;
+    height: 75vh;
+    max-height: 580px;
   }
 }
 
@@ -145,10 +171,28 @@
     display: flex;
   }
   .floating-whatsapp-btn {
-    bottom: 84px; /* Lift above bottom sticky dock */
-    right: 18px;
+    bottom: 82px;
+    right: 16px;
     width: 52px;
     height: 52px;
+  }
+  .tm-chatbot-container {
+    bottom: 82px;
+    right: 76px; /* Positioned neatly to left of WhatsApp on bottom mobile dock */
+  }
+  .tm-chatbot-toggle-btn {
+    width: 52px;
+    height: 52px;
+  }
+  .tm-chatbot-panel {
+    position: fixed;
+    bottom: 74px;
+    left: 12px;
+    right: 12px;
+    width: calc(100vw - 24px);
+    max-width: 100%;
+    height: calc(100vh - 140px);
+    max-height: 80vh;
   }
   .hero-section {
     padding-bottom: 90px;
@@ -190,5 +234,11 @@
   }
   .ba-slider-wrapper {
     height: 300px;
+  }
+  .tm-chatbot-panel {
+    bottom: 72px;
+    left: 8px;
+    right: 8px;
+    width: calc(100vw - 16px);
   }
 }
