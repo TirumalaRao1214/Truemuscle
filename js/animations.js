@@ -1,24 +1,43 @@
 /**
- * True Muscle Fitness Hub — Micro-Animations & Scroll Observer
+ * True Muscle Fitness Hub — Micro-Animations & Scroll Observer v2
  */
 
 class TMAnimations {
   constructor() {
+    this.initHeroLoad();
     this.initScrollReveal();
     this.initBeforeAfterSlider();
     this.initNumberCounters();
   }
 
+  initHeroLoad() {
+    // Trigger hero image zoom-out on load for cinematic feel
+    const heroSection = document.getElementById('hero');
+    if (heroSection) {
+      requestAnimationFrame(() => {
+        heroSection.classList.add('loaded');
+      });
+    }
+  }
+
   initScrollReveal() {
     const observerOptions = {
       root: null,
-      rootMargin: '0px 0px -60px 0px',
-      threshold: 0.15
+      rootMargin: '0px 0px -50px 0px',
+      threshold: 0.1
     };
 
     const revealCallback = (entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          // Apply stagger delay based on sibling index
+          const parent = entry.target.parentElement;
+          if (parent) {
+            const siblings = Array.from(parent.querySelectorAll('.reveal-on-scroll'));
+            const idx = siblings.indexOf(entry.target);
+            const delay = Math.min(idx * 80, 320);
+            entry.target.style.transitionDelay = `${delay}ms`;
+          }
           entry.target.classList.add('in-view');
           observer.unobserve(entry.target);
         }
@@ -26,22 +45,19 @@ class TMAnimations {
     };
 
     const observer = new IntersectionObserver(revealCallback, observerOptions);
-    document.querySelectorAll('.reveal-on-scroll, .why-number-card, .program-card-editorial, .membership-card').forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(30px)';
-      el.style.transition = 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
+
+    // Observe all scroll-reveal targets
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => {
       observer.observe(el);
     });
 
-    // Handle in-view style
-    const style = document.createElement('style');
-    style.innerHTML = `
-      .in-view {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
+    // Also observe why-number-cards, program cards, membership cards
+    document.querySelectorAll('.why-number-card, .program-card-editorial, .membership-card').forEach(el => {
+      if (!el.classList.contains('reveal-on-scroll')) {
+        el.classList.add('reveal-on-scroll');
+        observer.observe(el);
       }
-    `;
-    document.head.appendChild(style);
+    });
   }
 
   initBeforeAfterSlider() {
@@ -56,9 +72,7 @@ class TMAnimations {
     const setPosition = (x) => {
       const rect = wrapper.getBoundingClientRect();
       let offsetX = x - rect.left;
-      if (offsetX < 0) offsetX = 0;
-      if (offsetX > rect.width) offsetX = rect.width;
-
+      offsetX = Math.max(20, Math.min(offsetX, rect.width - 20));
       const percentage = (offsetX / rect.width) * 100;
       beforeLayer.style.width = `${percentage}%`;
       handle.style.left = `${percentage}%`;
@@ -66,25 +80,33 @@ class TMAnimations {
 
     const onStart = (e) => {
       isDragging = true;
-      setPosition(e.pageX || e.touches[0].pageX);
+      wrapper.style.cursor = 'ew-resize';
+      const clientX = e.touches ? e.touches[0].pageX : e.pageX;
+      setPosition(clientX);
     };
 
     const onEnd = () => {
       isDragging = false;
+      wrapper.style.cursor = '';
     };
 
     const onMove = (e) => {
       if (!isDragging) return;
-      setPosition(e.pageX || (e.touches && e.touches[0].pageX));
+      const clientX = e.touches ? e.touches[0].pageX : e.pageX;
+      setPosition(clientX);
     };
 
     wrapper.addEventListener('mousedown', onStart);
-    window.addEventListener('mouseup', onEnd);
-    window.addEventListener('mousemove', onMove);
-
     wrapper.addEventListener('touchstart', onStart, { passive: true });
+
+    window.addEventListener('mouseup', onEnd);
     window.addEventListener('touchend', onEnd);
+
+    window.addEventListener('mousemove', onMove);
     window.addEventListener('touchmove', onMove, { passive: true });
+
+    // Initialize at 50%
+    setPosition(wrapper.getBoundingClientRect().left + wrapper.offsetWidth / 2);
   }
 
   initNumberCounters() {
@@ -94,22 +116,24 @@ class TMAnimations {
     const counterObserver = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const target = parseInt(entry.target.getAttribute('data-target'), 10);
-          const suffix = entry.target.getAttribute('data-suffix') || '';
+          const el = entry.target;
+          const target = parseInt(el.getAttribute('data-target'), 10);
+          const suffix = el.getAttribute('data-suffix') || '';
           let count = 0;
-          const step = Math.ceil(target / 40);
-          
+          const duration = 1200;
+          const step = Math.ceil(target / (duration / 30));
+
           const timer = setInterval(() => {
             count += step;
             if (count >= target) {
-              entry.target.innerHTML = `${target}<span>${suffix}</span>`;
+              el.innerHTML = `${target}<span>${suffix}</span>`;
               clearInterval(timer);
             } else {
-              entry.target.innerHTML = `${count}<span>${suffix}</span>`;
+              el.innerHTML = `${count}<span>${suffix}</span>`;
             }
           }, 30);
 
-          obs.unobserve(entry.target);
+          obs.unobserve(el);
         }
       });
     }, { threshold: 0.5 });

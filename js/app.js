@@ -1,17 +1,16 @@
 /**
- * True Muscle Fitness Hub — Main Application Controller
+ * True Muscle Fitness Hub — Main Application Controller v2
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+
   // 1. Header scroll effect
   const header = document.getElementById('siteHeader');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  });
+  const onScroll = () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll(); // Run once on load
 
   // 2. Mobile Nav Toggle
   const mobileToggleBtn = document.getElementById('mobileMenuToggle');
@@ -22,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileToggleBtn.addEventListener('click', () => {
       const isOpen = mobileToggleBtn.classList.toggle('is-open');
       mobileNavOverlay.classList.toggle('is-active', isOpen);
+      mobileToggleBtn.setAttribute('aria-expanded', String(isOpen));
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
@@ -29,16 +29,27 @@ document.addEventListener('DOMContentLoaded', () => {
       link.addEventListener('click', () => {
         mobileToggleBtn.classList.remove('is-open');
         mobileNavOverlay.classList.remove('is-active');
+        mobileToggleBtn.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
       });
     });
+
+    // Close on overlay background click
+    mobileNavOverlay.addEventListener('click', (e) => {
+      if (e.target === mobileNavOverlay) {
+        mobileToggleBtn.classList.remove('is-open');
+        mobileNavOverlay.classList.remove('is-active');
+        mobileToggleBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+    });
   }
 
-  // 3. Smooth active state navigation
+  // 3. Active navigation state on scroll
   const navLinks = document.querySelectorAll('.nav-link');
   const sections = document.querySelectorAll('section[id]');
 
-  window.addEventListener('scroll', () => {
+  const updateActiveNav = () => {
     let current = '';
     sections.forEach(section => {
       const sectionTop = section.offsetTop - 120;
@@ -53,7 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
         link.classList.add('active');
       }
     });
-  });
+  };
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
 
   // 4. Initialize Subsystems
   if (window.initCarousels) window.initCarousels();
@@ -62,11 +75,37 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.initFitnessAssistant) window.initFitnessAssistant();
   if (window.initAnimations) window.initAnimations();
 
-  // 5. Dynamic Membership Click Handling
+  // 5. Membership plan click → WhatsApp
   document.querySelectorAll('.js-select-plan').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', () => {
       const planName = btn.getAttribute('data-plan') || 'General';
       TMWhatsAppEngine.inquiryForPlan(planName);
     });
   });
+
+  // 6. Program enquire buttons (open modal with prefilled goal)
+  document.querySelectorAll('.js-program-enquire').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const program = btn.getAttribute('data-program') || '';
+      if (window.tmLeadEngine) {
+        window.tmLeadEngine.openModal(program);
+      }
+    });
+  });
+
+  // 7. Program WhatsApp buttons
+  document.querySelectorAll('.js-wa-program').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const program = btn.getAttribute('data-program') || '';
+      const msg = encodeURIComponent(
+        `Hi True Muscle Fitness Hub,\n\nI am interested in the ${program} program.\nPlease share more details and pricing.\n\nThank you!`
+      );
+      window.open(`https://wa.me/${GYM_CONFIG.whatsappNumber}?text=${msg}`, '_blank');
+    });
+  });
+
+  // 8. (Category cards already handled by js-open-trial-modal class in whatsapp.js)
+
+  // 9. (Floating WhatsApp button is handled by whatsapp.js engine)
 });

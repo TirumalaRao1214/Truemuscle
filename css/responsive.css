@@ -1,7 +1,7 @@
 /* ==========================================================================
-   TRUE MUSCLE FITNESS HUB — RESPONSIVE BREAKPOINT SYSTEM
+   TRUE MUSCLE FITNESS HUB — RESPONSIVE BREAKPOINT SYSTEM v2
    Breakpoints: 320px, 375px, 390px, 414px, 768px, 1024px, 1280px, 1440px, 1920px
-   Mobile-First Feel, Touch Smoothness & Zero Horizontal Overflow
+   Zero horizontal overflow. Mobile-first touch experience.
    ========================================================================== */
 
 /* Ultra-Wide & 4K (1920px+) */
@@ -10,15 +10,15 @@
     --container-max: 1600px;
   }
   .hero-title {
-    font-size: 8.5rem;
+    font-size: 9rem;
   }
   .category-card {
     width: 380px;
-    height: 500px;
+    height: 510px;
   }
 }
 
-/* Large Desktop (1280px - 1440px) */
+/* Large Desktop (1440px) */
 @media (max-width: 1440px) {
   .section-spacing {
     padding-top: 96px;
@@ -29,14 +29,27 @@
 /* Desktop & Laptop (1024px - 1279px) */
 @media (max-width: 1279px) {
   .nav-desktop {
-    gap: 20px;
+    gap: 18px;
+  }
+  .nav-link {
+    font-size: 0.8rem;
   }
   .why-numbers-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
   }
+  .why-number-card {
+    border-right: 1px solid var(--dark-border);
+    border-bottom: 1px solid var(--dark-border);
+  }
+  .why-number-card:nth-child(2n) { border-right: none; }
+  .why-number-card:nth-last-child(-n+2) { border-bottom: none; }
   .footer-top-grid {
     grid-template-columns: 1fr 1fr;
     gap: 36px;
+  }
+  .gallery-grid {
+    grid-template-columns: 1.5fr 1fr 1fr;
   }
 }
 
@@ -45,37 +58,70 @@
   :root {
     --header-height: 76px;
   }
+
   .nav-desktop {
     display: none;
   }
+
   .btn-mobile-toggle {
     display: flex;
   }
+
+  /* Hide desktop WhatsApp btn in header at tablet */
+  .header-actions .btn-whatsapp {
+    display: none;
+  }
+
   .programs-grid {
     grid-template-columns: 1fr;
   }
+
   .experience-showcase {
     grid-template-columns: 1fr;
     gap: 40px;
   }
+
   .transformation-container {
     grid-template-columns: 1fr;
     gap: 36px;
   }
+
   .calculator-box {
     grid-template-columns: 1fr;
     gap: 36px;
-    padding: 32px;
+    padding: 36px;
   }
+
   .location-grid {
     grid-template-columns: 1fr;
   }
+
   .hero-stats-row {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
+
   .hero-scroll-indicator {
     display: none;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 240px 240px 240px;
+  }
+
+  .gallery-item:nth-child(1) {
+    grid-row: 1 / 2;
+    grid-column: 1 / -1;
+  }
+
+  .memberships-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .memberships-grid .membership-card:last-child {
+    grid-column: 1 / -1;
+    max-width: 100% !important;
   }
 }
 
@@ -85,57 +131,122 @@
     padding-top: 72px;
     padding-bottom: 72px;
   }
+
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
   .hero-title {
     font-size: clamp(3.2rem, 11vw, 4.8rem);
   }
+
   .hero-cta-group {
     flex-direction: column;
     align-items: stretch;
     width: 100%;
   }
+
   .hero-cta-group .btn {
     width: 100%;
+    justify-content: center;
   }
+
   .why-numbers-grid {
     grid-template-columns: 1fr;
+    border: 1px solid var(--dark-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
   }
+
+  .why-number-card {
+    border-right: none;
+    border-bottom: 1px solid var(--dark-border);
+  }
+
+  .why-number-card:last-child { border-bottom: none; }
+
   .category-card {
     width: 290px;
-    height: 420px;
+    height: 430px;
   }
+
   .trainer-card {
     width: 280px;
-    height: 440px;
+    height: 450px;
   }
+
   .ba-slider-wrapper {
     height: 380px;
   }
+
   .footer-top-grid {
     grid-template-columns: 1fr;
     gap: 32px;
   }
+
   .footer-bottom-bar {
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     text-align: center;
   }
+
   .form-grid-layout {
     grid-template-columns: 1fr;
   }
+
   .form-group-custom.col-half {
     grid-column: 1 / -1;
   }
+
   .modal-dialog {
     padding: 32px 20px;
     width: calc(100vw - 32px);
   }
+
   .testimonial-quote-card {
-    padding: 32px 20px;
+    padding: 36px 24px;
   }
+
   .quote-icon-large {
-    font-size: 4.5rem;
-    top: 16px;
-    right: 20px;
+    font-size: 5rem;
+    top: 18px;
+    right: 22px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 200px 180px 180px;
+  }
+
+  .gallery-item:nth-child(1) {
+    grid-row: 1;
+    grid-column: 1 / -1;
+  }
+
+  .memberships-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .memberships-grid .membership-card:last-child {
+    grid-column: 1 / -1;
+    max-width: 100% !important;
+  }
+
+  .cta-btn-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-btn-group .btn {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .section-header-flex {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 32px;
   }
 
   /* Chatbot on Tablets and Phablets */
@@ -158,35 +269,48 @@
   }
 }
 
-/* Mobile Screen App Experience (375px - 414px) */
+/* Mobile App Experience (375px - 414px) */
 @media (max-width: 414px) {
   .container {
-    padding-left: 18px;
-    padding-right: 18px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
+
+  /* Hide desktop JOIN NOW in header — shown in sticky bar */
   .header-actions .btn-primary {
-    display: none; /* Handled by sticky bottom app dock on mobile */
+    display: none;
   }
+
+  .header-actions .btn-whatsapp {
+    display: none;
+  }
+
   .mobile-sticky-cta-bar {
     display: flex;
   }
+
   .floating-whatsapp-btn {
-    bottom: 80px;
-    right: 80px;
-    width: 58px;
-    height: 58px;
+    bottom: 72px;
+    right: 16px;
+    width: 52px;
+    height: 52px;
   }
+
+  .floating-whatsapp-btn .floating-whatsapp-tooltip {
+    display: none;
+  }
+
   .tm-chatbot-container {
-    bottom: 80px;
+    bottom: 72px;
     right: 16px;
   }
   .tm-chatbot-toggle-btn {
-    width: 58px;
-    height: 58px;
+    width: 54px;
+    height: 54px;
   }
   .tm-chatbot-panel {
     position: fixed;
-    bottom: 74px;
+    bottom: 68px;
     left: 12px;
     right: 12px;
     width: calc(100vw - 24px);
@@ -194,26 +318,80 @@
     height: min(650px, calc(100vh - 100px));
     max-height: 80vh;
   }
+
   .hero-section {
     padding-bottom: 90px;
   }
+
+  .hero-title {
+    font-size: clamp(3rem, 13vw, 4.5rem);
+  }
+
   .stat-num {
-    font-size: 2rem;
+    font-size: 2.1rem;
   }
+
   .category-card {
-    width: 260px;
-    height: 380px;
+    width: 265px;
+    height: 390px;
   }
+
   .trainer-card {
     width: 260px;
-    height: 400px;
+    height: 410px;
   }
+
   .transform-stat-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
   }
+
+  .transform-stat-val {
+    font-size: 1.6rem;
+  }
+
   .calc-inputs-col {
     gap: 16px;
+  }
+
+  .calculator-box {
+    padding: 24px 20px;
+  }
+
+  .section-title {
+    font-size: clamp(2.4rem, 9vw, 3.5rem);
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 180px 160px 160px;
+    gap: 10px;
+  }
+
+  .gallery-item:nth-child(1) {
+    grid-row: 1;
+    grid-column: 1 / -1;
+  }
+
+  .testimonial-quote-card {
+    padding: 28px 18px;
+  }
+
+  .testimonial-body {
+    font-size: 1rem;
+  }
+
+  .location-details-box {
+    padding: 28px 20px;
+  }
+
+  .transformation-meta-box {
+    padding: 28px 20px;
+  }
+
+  .mobile-nav-link {
+    font-size: clamp(1.8rem, 7vw, 2.6rem);
+    padding: 8px 0;
   }
 }
 
@@ -222,23 +400,37 @@
   .hero-title {
     font-size: 2.8rem;
   }
+
   .logo-main-text {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
   }
+
+  .logo-sub-text {
+    font-size: 0.52rem;
+  }
+
   .section-title {
-    font-size: 2.4rem;
+    font-size: 2.3rem;
   }
+
   .category-card {
     width: 240px;
-    height: 350px;
+    height: 360px;
   }
+
   .ba-slider-wrapper {
     height: 300px;
   }
+
   .tm-chatbot-panel {
-    bottom: 72px;
+    bottom: 68px;
     left: 8px;
     right: 8px;
     width: calc(100vw - 16px);
+  }
+
+  .btn-lg {
+    padding: 16px 28px;
+    font-size: 0.92rem;
   }
 }

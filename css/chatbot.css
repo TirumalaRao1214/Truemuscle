@@ -306,7 +306,7 @@
   color: var(--white, #ffffff);
   border-top-right-radius: 4px;
   font-weight: 500;
-  box-shadow: 0 4px 15px rgba(0, 136, 255, 0.4);
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.35);
 }
 
 .tm-chat-btn-group {
@@ -475,11 +475,11 @@
   cursor: pointer;
   transition: all var(--transition-fast, 0.2s cubic-bezier(0.16, 1, 0.3, 1));
   flex-shrink: 0;
-  box-shadow: 0 4px 15px rgba(0, 136, 255, 0.4);
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.35);
 }
 
 .tm-chatbot-send-btn:hover {
-  background: #0066dd;
+  background: var(--red-hover, #b91c1c);
   transform: scale(1.05);
 }
 
