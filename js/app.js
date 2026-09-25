@@ -4,6 +4,14 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // 0. Mobile sticky bar — apply body class so content is not obscured
+  const applyStickyBarClass = () => {
+    const isVisible = window.innerWidth <= 576;
+    document.body.classList.toggle('has-sticky-bar', isVisible);
+  };
+  applyStickyBarClass();
+  window.addEventListener('resize', applyStickyBarClass, { passive: true });
+
   // 1. Header scroll effect
   const header = document.getElementById('siteHeader');
   const onScroll = () => {
