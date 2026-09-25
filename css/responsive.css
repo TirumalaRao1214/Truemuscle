@@ -386,8 +386,9 @@
   }
   .hero-left-panel::before { display: none; }
   .hero-backdrop-img {
-    filter: brightness(0.55) contrast(1.15) saturate(1.1);
-    object-position: center 15%;
+    /* Keep orange gym lighting visible on mobile — darken just enough for text */
+    filter: brightness(0.72) contrast(1.1) saturate(1.0);
+    object-position: 52% top;
   }
   .hero-title {
     font-size: clamp(2.4rem, 11vw, 3.6rem);
