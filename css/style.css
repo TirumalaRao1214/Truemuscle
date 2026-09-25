@@ -938,6 +938,7 @@ ul, ol { list-style: none; }
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
   /* Warm orange cinematic grade */
   filter: brightness(0.70) contrast(1.18) saturate(1.08);
   transition: transform var(--transition-slow), filter var(--transition-normal);
@@ -1072,6 +1073,7 @@ ul, ol { list-style: none; }
   top: 0; left: 0;
   width: 100%; height: 100%;
   object-fit: cover;
+  object-position: center top; /* Show athlete's upper body / key subject */
   /* Athlete clearly visible — minimal grade, dramatic contrast only */
   filter: brightness(0.62) contrast(1.22) saturate(1.05);
   transition: transform 0.9s ease-out, filter 0.9s ease-out;
@@ -1210,6 +1212,7 @@ ul, ol { list-style: none; }
 .mosaic-item img {
   width: 100%; height: 100%;
   object-fit: cover;
+  object-position: center center;
   transition: transform var(--transition-slow), filter var(--transition-normal);
   filter: brightness(0.68) contrast(1.18) saturate(1.06);
 }
@@ -1424,6 +1427,7 @@ ul, ol { list-style: none; }
 .trainer-img {
   width: 100%; height: 100%;
   object-fit: cover;
+  object-position: center top; /* Prioritise face/upper body for portrait shots */
   transition: transform var(--transition-slow), filter var(--transition-normal);
   filter: brightness(0.70) contrast(1.18) saturate(1.08);
 }

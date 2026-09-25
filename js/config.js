@@ -207,7 +207,7 @@ const GYM_CONFIG = {
       title: "STRENGTH TRAINING",
       subtitle: "POWER & LOAD",
       description: "Progressive overload, barbell mastery, power racks, and compound lifting routines designed to maximize pure athletic strength.",
-      image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80",
+      image: "images/programs/strength.png",
       tag: "CORE POWER"
     },
     {
@@ -215,7 +215,7 @@ const GYM_CONFIG = {
       title: "MUSCLE BUILDING",
       subtitle: "HYPERTROPHY & SCULPT",
       description: "Targeted volume isolation, modern cable stacks, biomechanical plate-loaded machines, and high-intensity hypertrophy splits.",
-      image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80",
+      image: "images/programs/men.png",
       tag: "HYPERTROPHY"
     },
     {
@@ -223,7 +223,7 @@ const GYM_CONFIG = {
       title: "FAT LOSS & SHRED",
       subtitle: "LEAN CONDITIONING",
       description: "High-metabolic resistance training, HIIT protocols, and caloric expenditure circuits to burn stubborn fat while preserving lean tissue.",
-      image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80",
+      image: "images/programs/fatloss.png",
       tag: "HIIT & METCON"
     },
     {
@@ -231,7 +231,7 @@ const GYM_CONFIG = {
       title: "FUNCTIONAL FITNESS",
       subtitle: "ATHLETIC AGILITY",
       description: "Kettlebells, plyometrics, slam balls, turf sled pushes, and battle ropes engineered to build real-world athleticism and joint resilience.",
-      image: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=800&q=80",
+      image: "images/facilities/functional-turf.png",
       tag: "MOBILITY & SPEED"
     },
     {
@@ -239,7 +239,7 @@ const GYM_CONFIG = {
       title: "CARDIO ENDURANCE",
       subtitle: "AEROBIC CAPACITY",
       description: "Commercial curved treadmills, air bikes, rowing ergs, and stair masters to elevate VO2 max and heart health.",
-      image: "https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=800&q=80",
+      image: "images/programs/cardio.png",
       tag: "VO2 MAX"
     },
     {
@@ -247,7 +247,7 @@ const GYM_CONFIG = {
       title: "PERSONAL COACHING",
       subtitle: "1-ON-1 ATTENTION",
       description: "Tailored 1-on-1 coaching, bespoke nutrition planning, movement screening, and relentless accountability to fast-track your goals.",
-      image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&q=80",
+      image: "images/programs/personal-training.png",
       tag: "VIP COACHING"
     }
   ],
@@ -260,7 +260,7 @@ const GYM_CONFIG = {
       pitch: "Build strength. Build size. Build confidence.",
       desc: "An intensive hypertrophy curriculum utilizing biomechanical machines, calibrated barbells, and science-backed training blocks.",
       features: ["Biomechanical Form Coaching", "Macro & Calorie Target Guide", "Progressive Volume Splits"],
-      image: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=1000&q=80",
+      image: "images/programs/men.png",
       badge: "MOST POPULAR"
     },
     {
@@ -269,7 +269,7 @@ const GYM_CONFIG = {
       pitch: "Train hard. Move better. Feel stronger.",
       desc: "Dynamic metabolic resistance combined with high-energy cardiovascular conditioning to accelerate fat oxidation.",
       features: ["High Calorie Burn Circuits", "Body Composition Tracking", "Daily Step & Activity Audits"],
-      image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1000&q=80",
+      image: "images/programs/fatloss.png",
       badge: "HIGH INTENSITY"
     },
     {
@@ -278,7 +278,7 @@ const GYM_CONFIG = {
       pitch: "Progressive training designed around your goals.",
       desc: "Heavy compound lifting focusing on Squat, Bench, Deadlift, and Overhead Press with periodized load progression.",
       features: ["Calibrated Power Barbell Training", "RPE-Based Periodization", "Joint Stability & Recovery"],
-      image: "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?auto=format&fit=crop&w=1000&q=80",
+      image: "images/programs/maximum-strength.png",
       badge: "ELITE POWER"
     },
     {
@@ -287,7 +287,7 @@ const GYM_CONFIG = {
       pitch: "Focused coaching. Individual attention.",
       desc: "Exclusive 1-on-1 coaching customized completely to your schedule, physical capabilities, and personal milestones.",
       features: ["Dedicated Personal Coach", "Weekly Body Fat Analysis", "Custom Meal & Supplement Protocol"],
-      image: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=1000&q=80",
+      image: "images/programs/personal-training.png",
       badge: "1-ON-1 DIRECT"
     }
   ],
@@ -319,8 +319,8 @@ const GYM_CONFIG = {
     {
       title: "12-WEEK HYPERTROPHY TRANSFORMATION",
       category: "Muscle Building & Shred",
-      beforeImg: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80",
-      afterImg: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80",
+      beforeImg: "images/programs/maximum-strength.png",
+      afterImg: "images/programs/men.png",
       stats: {
         timeline: "12 Weeks",
         result: "+6.5kg Lean Mass",
@@ -337,7 +337,7 @@ const GYM_CONFIG = {
       experience: "8+ Years Experience",
       specialization: "Olympic Lifting, Hypertrophy, Powerbuilding",
       certifications: "CSCS / K11 Certified Master Trainer",
-      image: "https://images.unsplash.com/photo-1567013127542-490d757e51fc?auto=format&fit=crop&w=800&q=80",
+      image: "images/trainers/coach-arjun.png",
       instagram: "@coach_arjun_tm"
     },
     {
@@ -346,7 +346,7 @@ const GYM_CONFIG = {
       experience: "6+ Years Experience",
       specialization: "HIIT, Body Transformation, Women's Strength",
       certifications: "ACE Certified / Functional Movement Specialist",
-      image: "https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=800&q=80",
+      image: "images/trainers/coach-priya.png",
       instagram: "@priya_fit_coach"
     },
     {
@@ -355,7 +355,7 @@ const GYM_CONFIG = {
       experience: "10+ Years Experience",
       specialization: "Hypertrophy Splits, Contest Prep, Mobility",
       certifications: "ISSA Certified Fitness Coach",
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80",
+      image: "images/trainers/coach-rajesh.png",
       instagram: "@rajesh_ironphysique"
     },
     {
@@ -364,7 +364,7 @@ const GYM_CONFIG = {
       experience: "5+ Years Experience",
       specialization: "Corrective Exercise, Sports Nutrition, Calisthenics",
       certifications: "NASM Certified / Precision Nutrition L1",
-      image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80",
+      image: "images/trainers/coach-sneha.png",
       instagram: "@sneha_movewell"
     }
   ]
