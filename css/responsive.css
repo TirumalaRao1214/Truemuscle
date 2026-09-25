@@ -1,5 +1,5 @@
 /* ==========================================================================
-   TRUE MUSCLE FITNESS HUB — RESPONSIVE BREAKPOINT SYSTEM v4
+   TRUE MUSCLE FITNESS HUB — RESPONSIVE BREAKPOINT SYSTEM v5
    Breakpoints: 320, 360, 375, 430, 480, 576, 600, 768, 820, 900, 992, 1200, 1440, 1600, 1920px
    Mobile-first strategy. Zero horizontal overflow guaranteed.
    ========================================================================== */
@@ -10,11 +10,37 @@
 html, body {
   overflow-x: clip;
   max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-/* Prevent any child from blowing out the viewport */
-* {
+/* Universal box-sizing and overflow guard */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   min-width: 0;
+}
+
+/* Global image safety */
+img, picture, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Global input/select/textarea safety */
+input, select, textarea {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* All text elements wrap by default */
+p, h1, h2, h3, h4, h5, h6, li, span, a, label, td, th {
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* ============================================================
@@ -1090,5 +1116,543 @@ html, body {
   .modal-dialog {
     padding: 24px 14px;
     width: calc(100% - 12px);
+  }
+}
+
+/* ============================================================
+   FLUID ADAPTIVE ADDITIONS — v5 PATCH
+   Covers all elements that need additional fluid behaviour
+   beyond what the breakpoints above already handle.
+   ============================================================ */
+
+/* ── Ensure all form inputs are always full-width ── */
+.form-input-custom,
+.form-input-custom[type="text"],
+.form-input-custom[type="number"],
+.form-input-custom[type="email"],
+.form-input-custom[type="tel"],
+.form-input-custom[type="date"],
+.form-input-custom[type="search"],
+select.form-input-custom,
+textarea.form-input-custom {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* ── CTA button groups always wrap ── */
+.hero-cta-group,
+.cta-btn-group,
+.location-action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(8px, 2vw, 16px);
+}
+
+/* ── All carousel cards must never overflow viewport ── */
+.category-card,
+.trainer-card {
+  max-width: calc(100vw - 40px);
+}
+
+/* ── Section header flex: never fixed margin ── */
+.section-header-flex {
+  margin-bottom: clamp(28px, 5vw, 52px);
+}
+
+/* ── Program description and feature text ── */
+.program-desc,
+.program-pitch,
+.program-feature-item {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ── Experience feature rows stay fluid ── */
+.exp-feature-info {
+  min-width: 0;
+  flex: 1;
+}
+.exp-feature-info h4,
+.exp-feature-info p {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* ── Transformation meta box text wraps ── */
+.transform-stat-lbl,
+.transform-stat-val {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* ── Plan feature items ── */
+.plan-feature-item {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
+}
+
+/* ── Testimonial body never overflows ── */
+.testimonial-body,
+.author-info h4,
+.author-goal,
+.author-duration {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+/* ── Gallery label wraps ── */
+.gallery-item-label {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+
+/* ── Knowledge card body text ── */
+.knowledge-card-title,
+.knowledge-card-desc {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* ── Mobile nav text never overflows ── */
+.mobile-nav-address {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+
+/* ── Section subtitle responsive ── */
+.section-subtitle {
+  max-width: min(600px, 100%);
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ── Footer nav links never overflow ── */
+.footer-nav-link,
+.footer-nav-list {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+/* ── Timing rows: day and time wrap on tiny screens ── */
+.timing-day,
+.timing-time {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* ── Modal overlay: full-screen safe-area padding ── */
+.modal-overlay {
+  padding: max(16px, env(safe-area-inset-top, 16px))
+           max(16px, env(safe-area-inset-right, 16px))
+           max(16px, env(safe-area-inset-bottom, 16px))
+           max(16px, env(safe-area-inset-left, 16px));
+}
+
+/* ── Hero stats row fully fluid ── */
+.hero-stats-row {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 100px), 1fr));
+}
+
+/* ── Why number cards: big watermark number never overflow ── */
+.why-big-num {
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+/* ── Orange label bar: text wraps ── */
+.orange-label-bar {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  max-width: 100%;
+}
+
+/* ── Status pill never overflows ── */
+.status-pill {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+}
+
+/* ── Map embed always fluid ── */
+.map-embed-wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+.map-embed-wrapper iframe {
+  width: 100%;
+  display: block;
+}
+
+/* ── Section tags text wraps ── */
+.section-tag {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  max-width: 100%;
+}
+
+/* ── Footer columns never overflow ── */
+.footer-top-grid > * {
+  min-width: 0;
+}
+
+/* ── Membership popular tag wraps on tiny screens ── */
+.membership-popular-tag {
+  white-space: normal;
+  max-width: calc(100% - 32px);
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+/* ── Scroll reveal elements: never overflow ── */
+.reveal-on-scroll {
+  max-width: 100%;
+}
+
+/* ── Floating WhatsApp tooltip: never overflow ── */
+.floating-whatsapp-tooltip {
+  max-width: min(220px, calc(100vw - 100px));
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* ── Chatbot panel: always within viewport ── */
+.tm-chatbot-panel {
+  max-width: min(460px, calc(100vw - 24px));
+}
+
+/* ── Hero location line: fully fluid ── */
+.hero-location-line {
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+/* ── Hero desc: always within bounds ── */
+.hero-desc {
+  max-width: min(560px, 100%);
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ============================================================
+   CONTAINER: fluid on all sizes
+   ============================================================ */
+.container {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* ============================================================
+   ADDITIONAL BREAKPOINT: 600px — intermediate phones
+   ============================================================ */
+@media (max-width: 600px) {
+  /* Trainer/category cards: allow wider on medium phones */
+  .category-card {
+    width: clamp(220px, 78vw, 310px);
+    height: clamp(310px, 58vw, 430px);
+  }
+  .trainer-card {
+    width: clamp(220px, 78vw, 310px);
+    height: clamp(350px, 62vw, 460px);
+  }
+
+  /* Plan price row: stack on very small */
+  .plan-price-row {
+    flex-wrap: wrap;
+  }
+
+  /* Membership grid: ensure single col */
+  .memberships-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Why numbers: tight padding */
+  .why-number-card {
+    padding: 30px 22px;
+  }
+
+  /* Loc action buttons: full width */
+  .location-action-buttons .btn {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  /* BMI gauge: smaller */
+  .bmi-meter-gauge {
+    width: clamp(120px, 28vw, 155px);
+    height: clamp(120px, 28vw, 155px);
+  }
+
+  /* Transformation stats: tighter */
+  .transform-stat-grid {
+    gap: 8px;
+  }
+}
+
+/* ============================================================
+   ADDITIONAL BREAKPOINT: 360px — common Android phones
+   ============================================================ */
+@media (max-width: 360px) {
+  .container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 13vw, 2.6rem);
+  }
+
+  .section-title {
+    font-size: clamp(1.7rem, 11vw, 2.2rem);
+  }
+
+  .btn {
+    font-size: 0.78rem;
+    padding: 11px 14px;
+  }
+
+  .btn-lg {
+    font-size: 0.82rem;
+    padding: 12px 16px;
+  }
+
+  .stat-num {
+    font-size: 1.7rem;
+  }
+
+  .mobile-nav-link {
+    font-size: clamp(1.5rem, 8vw, 2rem);
+  }
+
+  .category-card {
+    width: clamp(180px, 88vw, 260px);
+    height: clamp(260px, 68vw, 340px);
+  }
+  .trainer-card {
+    width: clamp(180px, 88vw, 260px);
+    height: clamp(280px, 72vw, 360px);
+  }
+
+  .plan-price {
+    font-size: clamp(1.8rem, 9vw, 2.2rem);
+  }
+
+  .plan-name {
+    font-size: 1.6rem;
+  }
+
+  .modal-dialog {
+    padding: 22px 12px;
+    width: calc(100% - 10px);
+  }
+
+  .cta-massive-text {
+    font-size: clamp(2rem, 12vw, 3rem);
+  }
+
+  .bmi-score-number {
+    font-size: 2.2rem;
+  }
+
+  .bmi-meter-gauge {
+    width: 115px;
+    height: 115px;
+  }
+
+  .loc-title {
+    font-size: 1.7rem;
+  }
+
+  .transform-stat-val {
+    font-size: 1.4rem;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 100%;
+  }
+  .hero-cta-group .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Footer bottom: stack */
+  .footer-bottom-bar {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+    font-size: 0.7rem;
+  }
+}
+
+/* ============================================================
+   ADDITIONAL BREAKPOINT: 320px — absolute minimum
+   ============================================================ */
+@media (max-width: 320px) {
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  :root {
+    --header-height: 56px;
+  }
+
+  .logo-badge {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    font-size: 0.8rem;
+  }
+  .logo-main-text { font-size: 1.1rem; }
+  .logo-sub-text { font-size: 0.48rem; }
+
+  .hero-title {
+    font-size: clamp(1.9rem, 14vw, 2.4rem);
+  }
+
+  .section-title {
+    font-size: clamp(1.6rem, 12.5vw, 2rem);
+  }
+
+  .btn {
+    font-size: 0.76rem;
+    padding: 10px 12px;
+  }
+
+  .btn-lg {
+    font-size: 0.78rem;
+    padding: 10px 14px;
+  }
+
+  .stat-num {
+    font-size: 1.5rem;
+  }
+
+  .plan-price {
+    font-size: 1.7rem;
+  }
+
+  .plan-name {
+    font-size: 1.5rem;
+  }
+
+  .mobile-nav-link {
+    font-size: clamp(1.4rem, 8.5vw, 1.9rem);
+    padding: 7px 0;
+  }
+
+  .mobile-nav-cta-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .mobile-nav-cta-row .btn {
+    width: 100%;
+  }
+
+  .cta-massive-text {
+    font-size: clamp(1.8rem, 13vw, 2.6rem);
+  }
+
+  .bmi-score-number {
+    font-size: 1.9rem;
+  }
+  .bmi-meter-gauge {
+    width: 105px;
+    height: 105px;
+  }
+
+  .loc-title {
+    font-size: 1.6rem;
+  }
+
+  .transform-stat-val {
+    font-size: 1.3rem;
+  }
+
+  .modal-dialog {
+    padding: 20px 10px;
+    width: calc(100% - 8px);
+  }
+
+  .hero-stats-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .location-action-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .location-action-buttons .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .footer-bottom-bar {
+    flex-direction: column;
+    text-align: center;
+    gap: 6px;
+    font-size: 0.68rem;
+  }
+
+  .program-card-editorial {
+    min-height: clamp(260px, 92vw, 380px);
+    padding: 16px 14px;
+  }
+
+  .program-editorial-content h3 {
+    font-size: clamp(1.7rem, 9vw, 2.2rem);
+  }
+
+  .why-number-card {
+    padding: 22px 14px;
+  }
+  .why-card-title {
+    font-size: clamp(1.4rem, 7vw, 1.8rem);
+  }
+
+  .testimonial-quote-card {
+    padding: 20px 12px;
+  }
+  .testimonial-body {
+    font-size: 0.9rem;
+  }
+
+  .membership-card {
+    padding: 20px 12px;
+  }
+
+  .ba-slider-wrapper {
+    height: 230px;
+  }
+
+  .category-card {
+    width: clamp(170px, 90vw, 240px);
+    height: clamp(250px, 70vw, 310px);
+  }
+  .trainer-card {
+    width: clamp(170px, 90vw, 240px);
+    height: clamp(270px, 74vw, 330px);
+  }
+
+  .tm-chatbot-panel {
+    left: 6px;
+    right: 6px;
+    width: calc(100vw - 12px);
   }
 }
