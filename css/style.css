@@ -155,39 +155,44 @@ ul, ol { list-style: none; }
 .bg-dark { background-color: var(--dark-surface); color: var(--white); }
 
 /* ============================================================
-   TYPOGRAPHY
+   TYPOGRAPHY — EDITORIAL FITNESS HEADERS
    ============================================================ */
+
+/* Orange section label: [ CATEGORY ] style */
 .section-tag {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-size: 0.8rem;
-  font-weight: 700;
+  gap: 0;
+  font-size: 0.7rem;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--red-accent);
-  margin-bottom: 16px;
+  letter-spacing: 0.2em;
+  color: var(--white);
+  margin-bottom: 18px;
+  padding: 5px 16px 5px 12px;
+  background: var(--orange-500);
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
+  box-shadow: 0 0 18px rgba(255,90,0,0.4);
 }
 
-.section-tag::before {
-  content: '';
-  display: inline-block;
-  width: 22px;
-  height: 2px;
-  background-color: var(--red-accent);
-  flex-shrink: 0;
-}
+/* Remove old line pseudo-element */
+.section-tag::before { display: none; }
 
 .section-title {
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 5.5vw, 4.8rem);
   text-transform: uppercase;
-  line-height: 0.93;
+  line-height: 0.90;
   letter-spacing: 0.02em;
   color: var(--white);
   margin-bottom: 22px;
   word-break: break-word;
   overflow-wrap: break-word;
+}
+
+/* Orange underline accent on section titles */
+.section-title-accent {
+  color: var(--orange-500);
 }
 
 .section-subtitle {
@@ -587,116 +592,163 @@ ul, ol { list-style: none; }
 }
 
 /* ============================================================
-   HERO SECTION — CINEMATIC EDITORIAL
+   HERO SECTION — SPLIT EDITORIAL LAYOUT
+   Image RIGHT, Typography LEFT
+   Visual hierarchy: Athlete = Headline = co-equal
    ============================================================ */
 .hero-section {
   position: relative;
   min-height: 100svh;
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: calc(var(--header-height) + clamp(24px, 5vw, 48px));
-  padding-bottom: clamp(64px, 8vw, 100px);
+  align-items: stretch;
   overflow: hidden;
   background: var(--black);
 }
 
-.hero-backdrop {
+/* ── Left panel: dark background + typography ── */
+.hero-left-panel {
+  position: relative;
+  z-index: 3;
+  width: 52%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: calc(var(--header-height) + clamp(32px, 4vw, 64px));
+  padding-bottom: clamp(48px, 5vw, 80px);
+  padding-left: clamp(24px, 5vw, 80px);
+  padding-right: clamp(24px, 3vw, 56px);
+  background: linear-gradient(105deg,
+    rgba(5,5,5,1) 0%,
+    rgba(5,5,5,0.99) 65%,
+    rgba(5,5,5,0.82) 85%,
+    rgba(5,5,5,0) 100%
+  );
+}
+
+/* Vertical orange left border */
+.hero-left-panel::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  bottom: 15%;
+  width: 3px;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    var(--orange-500) 25%,
+    var(--orange-400) 75%,
+    transparent 100%
+  );
+  box-shadow: 0 0 24px 4px rgba(255,90,0,0.3);
+}
+
+/* ── Right panel: athlete photograph ── */
+.hero-right-panel {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  right: 0;
+  width: 65%;
   height: 100%;
   z-index: 1;
+}
+
+.hero-right-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  /* Gradient mask: fade athlete into dark panel on left */
+  background: linear-gradient(90deg,
+    rgba(5,5,5,0.95) 0%,
+    rgba(5,5,5,0.55) 28%,
+    rgba(5,5,5,0.12) 55%,
+    rgba(5,5,5,0.08) 100%
+  );
+}
+
+/* Orange warm glow behind athlete — rim lighting effect */
+.hero-right-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background:
+    radial-gradient(ellipse 50% 80% at 78% 45%, rgba(255,100,0,0.18) 0%, transparent 60%),
+    linear-gradient(0deg, rgba(5,5,5,0.85) 0%, transparent 25%),
+    linear-gradient(180deg, rgba(5,5,5,0.4) 0%, transparent 18%);
+  pointer-events: none;
 }
 
 .hero-backdrop-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 25%;
-  /* Cinematic orange color grade: darken, boost contrast, warm tones */
-  filter: brightness(0.38) contrast(1.22) saturate(1.1) sepia(0.18);
-  transform: scale(1.04);
-  transition: transform 12s ease-out;
+  object-position: 70% center;
+  /* LIGHT grading: keep athlete clearly visible, add subtle warmth */
+  filter: brightness(0.72) contrast(1.15) saturate(1.1);
+  transform: scale(1.03);
+  transition: transform 14s ease-out;
 }
 
 .hero-section.loaded .hero-backdrop-img {
   transform: scale(1.0);
 }
 
-.hero-backdrop-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* Editorial composition: heavy left coverage, image visible right */
-  background:
-    linear-gradient(105deg, rgba(5,5,5,0.97) 0%, rgba(5,5,5,0.75) 45%, rgba(5,5,5,0.22) 100%),
-    linear-gradient(0deg, rgba(5,5,5,1) 0%, rgba(5,5,5,0) 30%),
-    linear-gradient(180deg, rgba(5,5,5,0.5) 0%, rgba(5,5,5,0) 20%);
-}
-
-/* Orange glow accent vignette at left edge */
-.hero-backdrop-overlay::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 20%;
-  bottom: 0;
-  width: 3px;
-  background: linear-gradient(180deg, transparent 0%, var(--orange-500) 40%, var(--orange-400) 70%, transparent 100%);
-  box-shadow: 0 0 40px 8px rgba(255,90,0,0.25);
-}
-
-/* Subtle warm film grain overlay */
-.hero-backdrop-overlay::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 60% at 75% 45%, rgba(255,100,0,0.12) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 80% at 80% 50%, rgba(255,140,0,0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
+/* legacy overlay element — hidden, replaced by panel system */
+.hero-backdrop { display: none; }
+.hero-backdrop-overlay { display: none; }
 
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: min(850px, 100%);
-  min-width: 0;
   width: 100%;
+  min-width: 0;
 }
 
 .hero-tag-row {
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 }
 
+/* ── REDUCED title — athlete and headline co-equal ── */
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 9.5vw, 8.5rem);
-  line-height: 0.88;
-  letter-spacing: 0.02em;
+  font-size: clamp(2.8rem, 5.8vw, 5.8rem);
+  line-height: 0.86;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--white);
-  margin-bottom: 22px;
+  margin-bottom: 18px;
   word-break: break-word;
   overflow-wrap: break-word;
 }
 
 .hero-title .accent-stroke {
   color: var(--orange-500);
-  text-shadow: 0 0 40px rgba(255,90,0,0.5);
+  display: block;
+  text-shadow: 0 0 60px rgba(255,90,0,0.45);
+  position: relative;
+}
+
+/* Orange bar behind STRONGER word */
+.hero-title .accent-stroke::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 8%;
+  height: 84%;
+  width: 4px;
+  background: var(--orange-500);
+  box-shadow: 0 0 20px rgba(255,90,0,0.6);
 }
 
 .hero-location-line {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: clamp(0.72rem, 1vw, 0.92rem);
+  font-size: clamp(0.7rem, 0.9vw, 0.85rem);
   font-weight: 700;
-  letter-spacing: clamp(0.08em, 0.15vw, 0.18em);
+  letter-spacing: clamp(0.1em, 0.15vw, 0.2em);
   color: var(--orange-300);
   text-transform: uppercase;
   margin-bottom: 20px;
@@ -763,14 +815,14 @@ ul, ol { list-style: none; }
   position: absolute;
   bottom: 32px;
   right: clamp(20px, 3vw, 52px);
-  z-index: 2;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  color: var(--gray-500);
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
+  color: rgba(255,255,255,0.4);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
@@ -886,13 +938,13 @@ ul, ol { list-style: none; }
   height: 100%;
   object-fit: cover;
   /* Warm orange cinematic grade */
-  filter: brightness(0.78) contrast(1.12) saturate(1.05) sepia(0.12);
+  filter: brightness(0.70) contrast(1.18) saturate(1.08);
   transition: transform var(--transition-slow), filter var(--transition-normal);
 }
 
 .category-card:hover .category-card-img {
   transform: scale(1.08);
-  filter: brightness(0.88) contrast(1.15) saturate(1.1) sepia(0.08);
+  filter: brightness(0.82) contrast(1.14) saturate(1.1);
 }
 
 .category-card-overlay {
@@ -974,24 +1026,44 @@ ul, ol { list-style: none; }
   gap: 28px;
 }
 
+/* ──────────────────────────────────────────────
+   PROGRAM CARDS — FITNESS POSTER COMPOSITION
+   Full-bleed image + dark overlay + orange label
+   + stacked display title + explore CTA
+   ────────────────────────────────────────────── */
 .program-card-editorial {
   position: relative;
-  min-height: 540px;
+  min-height: clamp(480px, 55vw, 600px);
   border-radius: var(--radius-sm);
   overflow: hidden;
   background: var(--dark-card);
-  border: 1px solid var(--dark-border);
+  /* No static border — orange bottom border on hover */
+  border: 1px solid rgba(255,255,255,0.06);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 44px;
+  padding: clamp(24px, 3.5vw, 44px);
   transition: all var(--transition-normal);
+  cursor: pointer;
 }
 
+/* Bottom orange progress bar on hover */
+.program-card-editorial::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--orange-500), var(--orange-300));
+  transition: width 0.5s ease;
+  z-index: 10;
+}
+.program-card-editorial:hover::after { width: 100%; }
+
 .program-card-editorial:hover {
-  border-color: var(--orange-border);
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-lg), 0 0 32px var(--orange-glow);
+  border-color: rgba(255,90,0,0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.75), 0 0 40px var(--orange-glow);
 }
 
 .program-bg-img {
@@ -999,68 +1071,74 @@ ul, ol { list-style: none; }
   top: 0; left: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  /* Cinematic orange-toned fitness photography grade */
-  filter: brightness(0.55) contrast(1.2) saturate(1.0) sepia(0.15);
-  transition: transform 0.85s ease-out, filter 0.85s ease-out;
+  /* Athlete clearly visible — minimal grade, dramatic contrast only */
+  filter: brightness(0.62) contrast(1.22) saturate(1.05);
+  transition: transform 0.9s ease-out, filter 0.9s ease-out;
   z-index: 1;
 }
 
 .program-card-editorial:hover .program-bg-img {
-  transform: scale(1.06);
-  filter: brightness(0.62) contrast(1.18) saturate(1.05) sepia(0.1);
+  transform: scale(1.05);
+  filter: brightness(0.70) contrast(1.18) saturate(1.08);
 }
 
 .program-gradient-overlay {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
+  /* Strong bottom-up gradient for text legibility, subtle at top */
   background:
-    linear-gradient(180deg, rgba(5,5,5,0.12) 0%, rgba(5,5,5,0.65) 48%, rgba(5,5,5,0.99) 100%),
-    linear-gradient(90deg, rgba(5,5,5,0.45) 0%, transparent 60%);
+    linear-gradient(180deg,
+      rgba(5,5,5,0.08) 0%,
+      rgba(5,5,5,0.18) 35%,
+      rgba(5,5,5,0.75) 58%,
+      rgba(5,5,5,0.98) 100%
+    );
   z-index: 2;
 }
 
-/* Orange rim-light accent on card hover */
-.program-gradient-overlay::after {
+/* Orange side rim-light — always visible, subtle */
+.program-gradient-overlay::before {
   content: '';
   position: absolute;
   left: 0; top: 0;
   width: 3px;
   height: 100%;
-  background: linear-gradient(180deg, transparent 0%, var(--orange-500) 40%, var(--orange-400) 70%, transparent 100%);
-  opacity: 0;
-  transition: opacity var(--transition-normal);
+  background: linear-gradient(180deg,
+    transparent 0%,
+    var(--orange-500) 35%,
+    var(--orange-400) 65%,
+    transparent 100%
+  );
+  box-shadow: 0 0 20px 3px rgba(255,90,0,0.2);
 }
-.program-card-editorial:hover .program-gradient-overlay::after { opacity: 1; }
 
 .program-editorial-content {
   position: relative;
   z-index: 3;
 }
 
-/* Orange title bar label */
+/* ORANGE FITNESS POSTER LABEL — arrow shape */
 .program-badge-tag {
   display: inline-flex;
   align-items: center;
-  gap: 0;
-  padding: 5px 14px;
+  padding: 4px 20px 4px 12px;
   background: var(--orange-500);
   color: var(--white);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 900;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  margin-bottom: 14px;
-  position: relative;
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
-  padding-right: 22px;
-  box-shadow: 0 0 16px rgba(255,90,0,0.5);
+  margin-bottom: 16px;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%);
+  box-shadow: 0 0 20px rgba(255,90,0,0.55);
 }
 
 .program-editorial-content h3 {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 3.2vw, 3rem);
-  line-height: 0.93;
+  /* Poster-style: stacked large display text */
+  font-size: clamp(2.4rem, 3.5vw, 3.6rem);
+  line-height: 0.88;
   color: var(--white);
   margin-bottom: 10px;
 }
@@ -1132,12 +1210,12 @@ ul, ol { list-style: none; }
   width: 100%; height: 100%;
   object-fit: cover;
   transition: transform var(--transition-slow), filter var(--transition-normal);
-  filter: brightness(0.7) contrast(1.15) saturate(1.05) sepia(0.1);
+  filter: brightness(0.68) contrast(1.18) saturate(1.06);
 }
 
 .mosaic-item:hover img {
   transform: scale(1.08);
-  filter: brightness(0.88) contrast(1.12) saturate(1.1) sepia(0.05);
+  filter: brightness(0.82) contrast(1.14) saturate(1.1);
 }
 
 .mosaic-label {
@@ -1255,35 +1333,61 @@ ul, ol { list-style: none; }
 
 .why-number-card:hover::after { width: 100%; }
 
+/* Oversized background watermark number */
 .why-big-num {
   font-family: var(--font-display);
-  font-size: 5rem;
-  line-height: 0.85;
-  color: rgba(255, 255, 255, 0.055);
-  margin-bottom: 28px;
+  font-size: clamp(6rem, 9vw, 9rem);
+  line-height: 0.8;
+  /* Ghost watermark — very faint background typography */
+  color: rgba(255, 255, 255, 0.04);
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  letter-spacing: -0.04em;
+  pointer-events: none;
   transition: color var(--transition-normal);
-  letter-spacing: -0.02em;
+  user-select: none;
 }
 
 .why-number-card:hover .why-big-num {
-  color: rgba(255,90,0,0.2);
+  color: rgba(255,90,0,0.14);
+}
+
+/* Visible orange number indicator */
+.why-card-number {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--orange-500);
+  letter-spacing: 0.06em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.why-card-number::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--orange-500), transparent);
+  max-width: 40px;
 }
 
 .why-card-title {
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: clamp(1.8rem, 2.5vw, 2.2rem);
   letter-spacing: 0.02em;
   color: var(--white);
-  line-height: 1;
-  margin-bottom: 8px;
+  line-height: 0.95;
+  margin-bottom: 10px;
 }
 
 .why-card-sub {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 700;
   color: var(--orange-400);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   margin-bottom: 14px;
 }
 
@@ -1320,12 +1424,12 @@ ul, ol { list-style: none; }
   width: 100%; height: 100%;
   object-fit: cover;
   transition: transform var(--transition-slow), filter var(--transition-normal);
-  filter: brightness(0.75) contrast(1.12) saturate(1.05) sepia(0.12);
+  filter: brightness(0.70) contrast(1.18) saturate(1.08);
 }
 
 .trainer-card:hover .trainer-img {
   transform: scale(1.06);
-  filter: brightness(0.85) contrast(1.1) saturate(1.08) sepia(0.06);
+  filter: brightness(0.82) contrast(1.12) saturate(1.08);
 }
 
 .trainer-overlay {
@@ -1921,12 +2025,12 @@ ul, ol { list-style: none; }
   width: 100%; height: 100%;
   object-fit: cover;
   transition: transform var(--transition-slow), filter var(--transition-normal);
-  filter: brightness(0.68) contrast(1.15) saturate(1.05) sepia(0.12);
+  filter: brightness(0.65) contrast(1.18) saturate(1.06);
 }
 
 .gallery-item:hover img {
   transform: scale(1.08);
-  filter: brightness(0.82) contrast(1.12) saturate(1.1) sepia(0.06);
+  filter: brightness(0.78) contrast(1.14) saturate(1.1);
 }
 
 .gallery-item-overlay {
@@ -2251,7 +2355,7 @@ ul, ol { list-style: none; }
   width: 100%;
   height: 220px;
   object-fit: cover;
-  filter: brightness(0.7) contrast(1.15) saturate(1.05) sepia(0.1);
+  filter: brightness(0.68) contrast(1.18) saturate(1.06);
   transition: transform var(--transition-slow), filter var(--transition-normal);
 }
 

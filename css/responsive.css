@@ -186,12 +186,45 @@
     margin-bottom: 32px;
   }
 
-  /* Hero */
-  .hero-title {
-    font-size: clamp(3.2rem, 11vw, 5.2rem);
-  }
+  /* Hero — collapse split layout to stacked at 768px */
   .hero-section {
-    padding-bottom: 60px;
+    flex-direction: column;
+    min-height: 100svh;
+  }
+  .hero-left-panel {
+    width: 100%;
+    padding-top: calc(var(--header-height) + 28px);
+    padding-bottom: 40px;
+    padding-left: clamp(20px, 5vw, 40px);
+    padding-right: clamp(20px, 5vw, 40px);
+    background: linear-gradient(180deg,
+      rgba(5,5,5,0.97) 0%,
+      rgba(5,5,5,0.92) 80%,
+      rgba(5,5,5,0.7) 100%
+    );
+    position: relative;
+    z-index: 3;
+  }
+  .hero-right-panel {
+    position: relative;
+    width: 100%;
+    height: 55vw;
+    min-height: 280px;
+    max-height: 480px;
+    flex-shrink: 0;
+  }
+  .hero-right-panel::before {
+    background: linear-gradient(180deg,
+      rgba(5,5,5,0.65) 0%,
+      rgba(5,5,5,0.15) 40%,
+      rgba(5,5,5,0.6) 100%
+    );
+  }
+  .hero-backdrop-img {
+    object-position: center 20%;
+  }
+  .hero-title {
+    font-size: clamp(2.6rem, 9vw, 4.2rem);
   }
 
   /* Why grid → single col */
@@ -320,6 +353,45 @@
    Shows CALL | WHATSAPP | JOIN NOW bar
    ============================================================ */
 @media (max-width: 576px) {
+  /* Hero — full-screen background mode on small phones */
+  .hero-section {
+    flex-direction: column;
+    position: relative;
+  }
+  .hero-right-panel {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    z-index: 1;
+  }
+  .hero-right-panel::before {
+    background: linear-gradient(180deg,
+      rgba(5,5,5,0.75) 0%,
+      rgba(5,5,5,0.3) 35%,
+      rgba(5,5,5,0.75) 100%
+    );
+  }
+  .hero-left-panel {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    min-height: 100svh;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: none;
+    justify-content: flex-end;
+    padding-bottom: 80px;
+  }
+  .hero-left-panel::before { display: none; }
+  .hero-backdrop-img {
+    filter: brightness(0.55) contrast(1.15) saturate(1.1);
+    object-position: center 15%;
+  }
+  .hero-title {
+    font-size: clamp(2.4rem, 11vw, 3.6rem);
+  }
   /* Show sticky bar */
   .mobile-sticky-cta-bar {
     display: flex !important;
