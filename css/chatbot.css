@@ -17,21 +17,21 @@
   width: 64px;
   height: 64px;
   background: var(--black, #080b11);
-  border: 2px solid var(--blue-accent, #0088ff);
+  border: 2px solid var(--orange-500, #FF5A00);
   border-radius: 50%;
   color: var(--white, #ffffff);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 8px 30px rgba(0, 136, 255, 0.4), 0 0 20px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 30px rgba(255, 90, 0, 0.4), 0 0 20px rgba(0, 0, 0, 0.6);
   position: relative;
   transition: all var(--transition-normal, 0.35s cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .tm-chatbot-toggle-btn:hover {
   transform: scale(1.08) translateY(-3px);
-  box-shadow: 0 12px 35px rgba(0, 136, 255, 0.6);
+  box-shadow: 0 12px 35px rgba(255, 90, 0, 0.6);
   background: #101726;
 }
 
@@ -41,10 +41,10 @@
   right: 2px;
   width: 14px;
   height: 14px;
-  background-color: var(--blue-accent, #0088ff);
+  background-color: var(--orange-500, #FF5A00);
   border: 2px solid var(--black, #080b11);
   border-radius: 50%;
-  box-shadow: 0 0 10px var(--blue-accent, #0088ff);
+  box-shadow: 0 0 10px var(--orange-500, #FF5A00);
   animation: pulse-dot 2s infinite ease-in-out;
 }
 
@@ -88,7 +88,7 @@
 }
 
 .tm-chatbot-toggle-btn.is-active {
-  background: var(--blue-accent, #0088ff);
+  background: var(--orange-500, #FF5A00);
   border-color: var(--white, #ffffff);
 }
 
@@ -112,7 +112,7 @@
   background: var(--dark-surface, #121824);
   border: 1px solid var(--dark-border, rgba(255, 255, 255, 0.1));
   border-radius: var(--radius-md, 14px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 136, 255, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 90, 0, 0.2);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -151,7 +151,7 @@
 .tm-chatbot-header-badge {
   width: 36px;
   height: 36px;
-  background: var(--blue-accent, #0088ff);
+  background: var(--orange-500, #FF5A00);
   color: var(--white, #ffffff);
   font-family: var(--font-display, 'Bebas Neue', sans-serif);
   font-size: 1.3rem;
@@ -160,7 +160,7 @@
   justify-content: center;
   border-radius: var(--radius-xs, 4px);
   transform: skewX(-6deg);
-  box-shadow: 0 0 15px rgba(0, 136, 255, 0.4);
+  box-shadow: 0 0 15px rgba(255, 90, 0, 0.4);
 }
 
 .tm-chatbot-header-text {
@@ -180,7 +180,7 @@
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: var(--blue-accent, #0088ff);
+  color: var(--orange-500, #FF5A00);
   text-transform: uppercase;
 }
 
@@ -273,7 +273,7 @@
 .tm-chat-avatar {
   width: 28px;
   height: 28px;
-  background: var(--blue-accent, #0088ff);
+  background: var(--orange-500, #FF5A00);
   color: var(--white, #ffffff);
   border-radius: var(--radius-xs, 4px);
   font-family: var(--font-display, 'Bebas Neue', sans-serif);
@@ -302,11 +302,11 @@
 }
 
 .tm-chat-bubble-user {
-  background: var(--blue-accent, #0088ff);
+  background: var(--orange-500, #FF5A00);
   color: var(--white, #ffffff);
   border-top-right-radius: 4px;
   font-weight: 500;
-  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.35);
+  box-shadow: 0 4px 15px rgba(255, 90, 0, 0.35);
 }
 
 .tm-chat-btn-group {
@@ -335,19 +335,19 @@
 
 .tm-chat-action-btn:hover {
   background: #1f2c42;
-  border-color: var(--blue-accent, #0088ff);
+  border-color: var(--orange-500, #FF5A00);
   transform: translateX(4px);
   color: var(--white, #ffffff);
 }
 
 .tm-chat-action-btn.tm-btn-primary {
-  background: rgba(0, 136, 255, 0.15);
-  border-color: var(--blue-accent, #0088ff);
+  background: rgba(255, 90, 0, 0.15);
+  border-color: var(--orange-500, #FF5A00);
   color: var(--white, #ffffff);
 }
 
 .tm-chat-action-btn.tm-btn-primary:hover {
-  background: var(--blue-accent, #0088ff);
+  background: var(--orange-500, #FF5A00);
 }
 
 .tm-chat-back-row {
@@ -368,7 +368,7 @@
 }
 
 .tm-chat-back-btn:hover {
-  color: var(--blue-accent, #0088ff);
+  color: var(--orange-500, #FF5A00);
 }
 
 /* Typing Indicator Animation */
@@ -392,7 +392,7 @@
 
 @keyframes typingBounce {
   0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-  40% { transform: scale(1); opacity: 1; background-color: var(--blue-accent, #0088ff); }
+  40% { transform: scale(1); opacity: 1; background-color: var(--orange-500, #FF5A00); }
 }
 
 /* Quick Action Chips Bar */
@@ -428,8 +428,8 @@
 }
 
 .tm-chat-chip-btn:hover {
-  background: var(--blue-accent, #0088ff);
-  border-color: var(--blue-accent, #0088ff);
+  background: var(--orange-500, #FF5A00);
+  border-color: var(--orange-500, #FF5A00);
   color: var(--white, #ffffff);
   transform: translateY(-2px);
 }
@@ -458,14 +458,14 @@
 }
 
 .tm-chatbot-input:focus {
-  border-color: var(--blue-accent, #0088ff);
-  box-shadow: 0 0 10px rgba(0, 136, 255, 0.4);
+  border-color: var(--orange-500, #FF5A00);
+  box-shadow: 0 0 10px rgba(255, 90, 0, 0.4);
 }
 
 .tm-chatbot-send-btn {
   width: 42px;
   height: 42px;
-  background: var(--blue-accent, #0088ff);
+  background: var(--orange-500, #FF5A00);
   border: none;
   border-radius: 50%;
   color: var(--white, #ffffff);
@@ -475,7 +475,7 @@
   cursor: pointer;
   transition: all var(--transition-fast, 0.2s cubic-bezier(0.16, 1, 0.3, 1));
   flex-shrink: 0;
-  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.35);
+  box-shadow: 0 4px 15px rgba(255, 90, 0, 0.35);
 }
 
 .tm-chatbot-send-btn:hover {
