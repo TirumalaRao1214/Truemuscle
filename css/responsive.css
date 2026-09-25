@@ -579,40 +579,53 @@ html, body {
     display: none !important;
   }
 
-  /* Float buttons: shift above sticky bar */
+  /* Float buttons: shift above sticky bar (bar ≈ 64px tall) */
   .floating-whatsapp-btn {
-    bottom: clamp(68px, 14vw, 88px);
-    right: clamp(12px, 3.5vw, 20px);
-    width: clamp(48px, 11vw, 56px);
-    height: clamp(48px, 11vw, 56px);
+    bottom: clamp(74px, 16vw, 96px);
+    right: clamp(12px, 3.5vw, 18px);
+    width: clamp(46px, 10vw, 54px);
+    height: clamp(46px, 10vw, 54px);
   }
   .floating-whatsapp-btn .floating-whatsapp-tooltip {
     display: none;
   }
 
-  /* Chatbot: sits above sticky bar */
+  /* Chatbot: sits well above sticky bar — no overlap */
   .tm-chatbot-container {
-    bottom: clamp(74px, 15vw, 96px);
-    right: clamp(12px, 3.5vw, 20px);
+    bottom: clamp(140px, 28vw, 170px);
+    right: clamp(12px, 3.5vw, 18px);
   }
   .tm-chatbot-toggle-btn {
-    width: 54px;
-    height: 54px;
+    width: 52px;
+    height: 52px;
   }
   .tm-chatbot-panel {
     position: fixed;
-    bottom: clamp(70px, 14vw, 90px);
+    bottom: clamp(136px, 28vw, 166px);
     left: 12px;
     right: 12px;
     width: calc(100vw - 24px);
     max-width: 100%;
-    height: min(650px, calc(100svh - 110px));
-    max-height: 80svh;
+    height: min(560px, calc(100svh - 180px));
+    max-height: 75svh;
   }
 
   /* Body bottom padding when mobile bar active */
   body.has-sticky-bar {
-    padding-bottom: max(68px, calc(58px + env(safe-area-inset-bottom, 0px)));
+    padding-bottom: max(68px, calc(60px + env(safe-area-inset-bottom, 0px)));
+  }
+
+  /* Full-width buttons inside constrained mobile containers */
+  .transformation-meta-box .btn,
+  .calc-results-col .btn,
+  .cinematic-cta-section .btn {
+    width: 100%;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+    word-break: break-word;
+    padding-left: 14px;
+    padding-right: 14px;
   }
 
   /* Why cards — tighter padding */
