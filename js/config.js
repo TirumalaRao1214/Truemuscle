@@ -319,7 +319,7 @@ const GYM_CONFIG = {
     {
       title: "12-WEEK HYPERTROPHY TRANSFORMATION",
       category: "Muscle Building & Shred",
-      beforeImg: "images/programs/maximum-strength.png",
+      beforeImg: "images/programs/before.png",
       afterImg: "images/programs/men.png",
       stats: {
         timeline: "12 Weeks",
