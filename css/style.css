@@ -2001,8 +2001,8 @@ ul, ol { list-style: none; }
    GALLERY SECTION
    ============================================================ */
 .gallery-section {
-  padding-top: 112px;
-  padding-bottom: 112px;
+  padding-top: clamp(64px, 8vw, 112px);
+  padding-bottom: clamp(64px, 8vw, 112px);
 }
 
 .gallery-grid {
@@ -2166,7 +2166,7 @@ ul, ol { list-style: none; }
    ============================================================ */
 .cinematic-cta-section {
   position: relative;
-  padding: 148px 0;
+  padding: clamp(80px, 11vw, 148px) 0;
   text-align: center;
   overflow: hidden;
   background: var(--black);

@@ -1,8 +1,21 @@
 /* ==========================================================================
-   TRUE MUSCLE FITNESS HUB — RESPONSIVE BREAKPOINT SYSTEM v3
-   Breakpoints: 320, 375, 480, 576, 768, 992, 1200, 1440, 1600, 1920px
+   TRUE MUSCLE FITNESS HUB — RESPONSIVE BREAKPOINT SYSTEM v4
+   Breakpoints: 320, 360, 375, 430, 480, 576, 600, 768, 820, 900, 992, 1200, 1440, 1600, 1920px
    Mobile-first strategy. Zero horizontal overflow guaranteed.
    ========================================================================== */
+
+/* ============================================================
+   GLOBAL OVERFLOW GUARD
+   ============================================================ */
+html, body {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+/* Prevent any child from blowing out the viewport */
+* {
+  min-width: 0;
+}
 
 /* ============================================================
    4K / ULTRA-WIDE (1920px+)
@@ -44,17 +57,14 @@
 
 /* ============================================================
    HAMBURGER TRIGGER — 1200px
-   At this width, the nav items start to crowd.
    ============================================================ */
 @media (max-width: 1200px) {
-  /* Show mobile toggle, hide desktop nav */
   .nav-desktop {
     display: none !important;
   }
   .btn-mobile-toggle {
     display: flex !important;
   }
-  /* Keep header JOIN NOW visible until 575px */
   .header-actions .btn-whatsapp {
     display: none;
   }
@@ -69,16 +79,28 @@
     --header-height-scrolled: 58px;
   }
 
-  /* Programs → single column */
+  /* Programs → single column, height clamp adjusted for full col */
   .programs-grid {
     grid-template-columns: 1fr;
     gap: 24px;
+  }
+  .program-card-editorial {
+    min-height: clamp(380px, 55vw, 540px);
   }
 
   /* Experience showcase → single col */
   .experience-showcase {
     grid-template-columns: 1fr;
     gap: 40px;
+  }
+  /* Mosaic stacks to horizontal strip in single-col */
+  .experience-gallery-mosaic {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 240px;
+  }
+  .mosaic-item:nth-child(1) {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
   }
 
   /* Why grid → 2 col */
@@ -90,8 +112,8 @@
     border-right: 1px solid var(--dark-border);
     border-bottom: 1px solid var(--dark-border);
   }
-  .why-number-card:nth-child(2n)    { border-right: none; }
-  .why-number-card:nth-last-child(-n+2) { border-bottom: none; }
+  .why-number-card:nth-child(2n)         { border-right: none; }
+  .why-number-card:nth-last-child(-n+2)  { border-bottom: none; }
 
   /* Transformation → single col */
   .transformation-container {
@@ -153,10 +175,60 @@
   .knowledge-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .knowledge-card {
+    min-height: 340px;
+  }
 
   /* Hide scroll indicator */
   .hero-scroll-indicator {
     display: none;
+  }
+
+  /* CTA section padding */
+  .cinematic-cta-section {
+    padding: clamp(80px, 10vw, 148px) 0;
+  }
+
+  /* Gallery section padding */
+  .gallery-section {
+    padding-top: clamp(80px, 8vw, 112px);
+    padding-bottom: clamp(80px, 8vw, 112px);
+  }
+
+  /* Location details */
+  .location-details-box {
+    padding: 36px 32px;
+  }
+  .map-embed-wrapper,
+  .map-embed-wrapper iframe {
+    min-height: 360px;
+  }
+}
+
+/* ============================================================
+   LARGE TABLET PORTRAIT / SMALL LAPTOP (820px – 900px)
+   ============================================================ */
+@media (max-width: 900px) {
+  /* Category cards: tighter clamp so 2 visible */
+  .category-card {
+    width: clamp(240px, 44vw, 340px);
+    height: clamp(340px, 50vw, 460px);
+  }
+
+  /* Trainer cards: tighter clamp so 2 visible */
+  .trainer-card {
+    width: clamp(240px, 44vw, 330px);
+    height: clamp(380px, 52vw, 490px);
+  }
+
+  /* Why card padding */
+  .why-number-card {
+    padding: 36px 24px;
+  }
+
+  /* Testimonial padding */
+  .testimonial-quote-card {
+    padding: 44px 36px;
   }
 }
 
@@ -186,7 +258,7 @@
     margin-bottom: 32px;
   }
 
-  /* Hero — collapse split layout to stacked at 768px */
+  /* Hero — collapse split layout to stacked */
   .hero-section {
     flex-direction: column;
     min-height: 100svh;
@@ -227,6 +299,13 @@
     font-size: clamp(2.6rem, 9vw, 4.2rem);
   }
 
+  /* Hero location line: allow wrapping */
+  .hero-location-line {
+    font-size: clamp(0.66rem, 1.8vw, 0.8rem);
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
   /* Why grid → single col */
   .why-numbers-grid {
     grid-template-columns: 1fr;
@@ -261,9 +340,24 @@
     justify-content: center;
   }
 
+  /* CTA section */
+  .cinematic-cta-section {
+    padding: clamp(64px, 10vw, 100px) 0;
+  }
+  .cta-massive-text {
+    font-size: clamp(2.8rem, 10vw, 5rem);
+  }
+
   /* Knowledge grid → single col */
   .knowledge-grid {
     grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .knowledge-card {
+    min-height: auto;
+  }
+  .knowledge-card-img {
+    height: 200px;
   }
 
   /* Memberships → single col */
@@ -294,9 +388,24 @@
     grid-column: 1 / -1;
   }
 
+  /* Gallery section padding */
+  .gallery-section {
+    padding-top: clamp(56px, 9vw, 80px);
+    padding-bottom: clamp(56px, 9vw, 80px);
+  }
+
   /* B/A slider */
   .ba-slider-wrapper {
     height: 380px;
+  }
+  .ba-handle-button {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Transformation meta box */
+  .transformation-meta-box {
+    padding: 32px 28px;
   }
 
   /* Modal */
@@ -320,12 +429,64 @@
     top: 18px;
     right: 22px;
   }
+  .testimonial-author-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
 
   /* Footer */
+  .footer-top-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .footer-brand-col {
+    grid-column: 1 / -1;
+  }
   .footer-bottom-bar {
     flex-direction: column;
     gap: 10px;
     text-align: center;
+  }
+
+  /* Location */
+  .location-details-box {
+    padding: 28px 24px;
+  }
+  .loc-title {
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+  }
+  .timing-row {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .location-action-buttons {
+    flex-wrap: wrap;
+  }
+  .location-action-buttons .btn {
+    flex: 1;
+    min-width: 120px;
+    justify-content: center;
+    text-align: center;
+  }
+  .map-embed-wrapper,
+  .map-embed-wrapper iframe {
+    min-height: 300px;
+  }
+
+  /* Plan price responsive */
+  .plan-price {
+    font-size: clamp(2.4rem, 7vw, 3.2rem);
+  }
+
+  /* Mosaic → 3 equal col on tablet */
+  .experience-gallery-mosaic {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 200px;
+  }
+  .mosaic-item:nth-child(1) {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
   }
 
   /* Chatbot: show above sticky bar if applicable */
@@ -346,13 +507,23 @@
     height: 75vh;
     max-height: 580px;
   }
+
+  /* Mobile nav overlay top padding */
+  .mobile-nav-overlay {
+    padding: 90px 28px 40px;
+  }
+
+  /* Program cards single col — good height */
+  .program-card-editorial {
+    min-height: clamp(340px, 65vw, 500px);
+  }
 }
 
 /* ============================================================
    STICKY BAR TRIGGER — 576px
-   Shows CALL | WHATSAPP | JOIN NOW bar
    ============================================================ */
 @media (max-width: 576px) {
+
   /* Hero — full-screen background mode on small phones */
   .hero-section {
     flex-direction: column;
@@ -382,17 +553,21 @@
     padding-right: 20px;
     background: none;
     justify-content: flex-end;
-    padding-bottom: 80px;
+    padding-bottom: 90px;
   }
   .hero-left-panel::before { display: none; }
   .hero-backdrop-img {
-    /* Keep orange gym lighting visible on mobile — darken just enough for text */
     filter: brightness(0.72) contrast(1.1) saturate(1.0);
     object-position: 52% top;
   }
   .hero-title {
     font-size: clamp(2.4rem, 11vw, 3.6rem);
   }
+  .hero-location-line {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+  }
+
   /* Show sticky bar */
   .mobile-sticky-cta-bar {
     display: flex !important;
@@ -435,9 +610,72 @@
     max-height: 80svh;
   }
 
-  /* Body gets extra bottom padding — toggled by JS */
+  /* Body bottom padding when mobile bar active */
   body.has-sticky-bar {
     padding-bottom: max(68px, calc(58px + env(safe-area-inset-bottom, 0px)));
+  }
+
+  /* Why cards — tighter padding */
+  .why-number-card {
+    padding: 32px 24px;
+  }
+  .why-card-title {
+    font-size: clamp(1.6rem, 6vw, 2rem);
+  }
+
+  /* Category / trainer cards width on small screens */
+  .category-card {
+    width: clamp(220px, 75vw, 300px);
+    height: clamp(320px, 55vw, 420px);
+  }
+  .trainer-card {
+    width: clamp(220px, 75vw, 300px);
+    height: clamp(360px, 60vw, 460px);
+  }
+
+  /* Program cards */
+  .program-card-editorial {
+    min-height: clamp(320px, 80vw, 480px);
+    padding: clamp(20px, 4vw, 32px);
+  }
+
+  /* Section title clamped at this width */
+  .section-title {
+    font-size: clamp(2rem, 9.5vw, 3.2rem);
+  }
+
+  /* Footer → full single col */
+  .footer-top-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .footer-brand-col {
+    grid-column: auto;
+  }
+
+  /* Membership card */
+  .membership-card {
+    padding: 28px 22px;
+  }
+
+  /* Gallery: still 2 col at 576 */
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 200px 170px 170px;
+    gap: 8px;
+  }
+
+  /* Cinematic CTA */
+  .cinematic-cta-section {
+    padding: clamp(56px, 12vw, 80px) 0;
+  }
+  .cta-massive-text {
+    font-size: clamp(2.4rem, 11vw, 4rem);
+  }
+
+  /* Mobile nav overlay */
+  .mobile-nav-overlay {
+    padding: 88px 24px 36px;
   }
 }
 
@@ -451,11 +689,11 @@
   }
 
   .hero-title {
-    font-size: clamp(3rem, 12.5vw, 4.2rem);
+    font-size: clamp(2.6rem, 12vw, 3.8rem);
   }
 
   .section-title {
-    font-size: clamp(2.4rem, 10vw, 3.6rem);
+    font-size: clamp(2rem, 10.5vw, 3rem);
   }
 
   /* Stats → 2 col */
@@ -482,6 +720,11 @@
     height: 260px;
   }
 
+  /* Knowledge card image */
+  .knowledge-card-img {
+    height: 180px;
+  }
+
   /* Transformation stats */
   .transform-stat-grid {
     grid-template-columns: 1fr 1fr 1fr;
@@ -504,8 +747,14 @@
   }
 
   /* Location */
-  .location-details-box { padding: 28px 18px; }
-  .transformation-meta-box { padding: 28px 18px; }
+  .location-details-box { padding: 24px 18px; }
+  .transformation-meta-box { padding: 24px 18px; }
+  .location-action-buttons .btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 12px 14px;
+    font-size: 0.82rem;
+  }
 
   /* Mobile nav links */
   .mobile-nav-link {
@@ -514,10 +763,91 @@
   }
 
   /* B/A slider */
-  .ba-slider-wrapper { height: 360px; }
+  .ba-slider-wrapper { height: 300px; }
+  .ba-handle-button {
+    width: 34px;
+    height: 34px;
+  }
 
   /* Hero padding for sticky bar */
   .hero-section { padding-bottom: 80px; }
+
+  /* Category / trainer cards — full-width on small phones */
+  .category-card {
+    width: clamp(200px, 80vw, 280px);
+    height: clamp(300px, 60vw, 400px);
+  }
+  .trainer-card {
+    width: clamp(200px, 80vw, 280px);
+    height: clamp(340px, 65vw, 440px);
+  }
+
+  /* Mosaic → 2 col at 480 */
+  .experience-gallery-mosaic {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 180px 160px;
+    gap: 10px;
+  }
+  .mosaic-item:nth-child(1) {
+    grid-column: 1 / -1;
+    grid-row: 1 / 2;
+  }
+
+  /* Plan price */
+  .plan-price {
+    font-size: clamp(2.2rem, 8vw, 2.8rem);
+  }
+
+  /* Membership card */
+  .memberships-grid {
+    max-width: 100%;
+  }
+
+  /* Footer */
+  .footer-top-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* ============================================================
+   SMALL PHONES (430px)
+   ============================================================ */
+@media (max-width: 430px) {
+  .hero-title {
+    font-size: clamp(2.4rem, 11.5vw, 3.4rem);
+  }
+
+  .section-title {
+    font-size: clamp(1.9rem, 10vw, 2.8rem);
+  }
+
+  /* Category / trainer: stretch to near full width */
+  .category-card {
+    width: clamp(200px, 84vw, 290px);
+    height: clamp(290px, 65vw, 380px);
+  }
+  .trainer-card {
+    width: clamp(200px, 84vw, 290px);
+    height: clamp(320px, 68vw, 420px);
+  }
+
+  /* Hero stats */
+  .hero-stats-row {
+    gap: 12px;
+  }
+  .stat-num { font-size: 2rem; }
+
+  /* CTA massive text */
+  .cta-massive-text {
+    font-size: clamp(2.2rem, 12vw, 3.6rem);
+  }
+
+  /* Modal */
+  .modal-dialog {
+    padding: 28px 18px;
+    width: calc(100% - 16px);
+  }
 }
 
 /* ============================================================
@@ -530,11 +860,11 @@
   }
 
   .hero-title {
-    font-size: clamp(2.8rem, 13vw, 3.8rem);
+    font-size: clamp(2.3rem, 12.5vw, 3.2rem);
   }
 
   .section-title {
-    font-size: clamp(2.2rem, 11vw, 3.2rem);
+    font-size: clamp(1.8rem, 11.5vw, 2.8rem);
   }
 
   .stat-num {
@@ -547,21 +877,55 @@
   }
 
   .membership-card {
-    padding: 28px 20px;
+    padding: 28px 18px;
   }
 
-  .membership-price-big {
-    font-size: clamp(2.8rem, 10vw, 3.8rem);
+  .plan-price {
+    font-size: clamp(2rem, 9vw, 2.6rem);
   }
 
   .mobile-nav-link {
-    font-size: clamp(1.7rem, 8vw, 2.6rem);
+    font-size: clamp(1.7rem, 8vw, 2.4rem);
   }
 
-  .ba-slider-wrapper { height: 320px; }
+  .ba-slider-wrapper { height: 280px; }
 
   .testimonial-quote-card {
     padding: 24px 16px;
+  }
+  .testimonial-body {
+    font-size: 0.96rem;
+  }
+
+  /* Category / trainer: almost full width */
+  .category-card {
+    width: clamp(190px, 88vw, 280px);
+    height: clamp(280px, 68vw, 360px);
+  }
+  .trainer-card {
+    width: clamp(190px, 88vw, 280px);
+    height: clamp(300px, 72vw, 400px);
+  }
+
+  /* Why cards */
+  .why-number-card {
+    padding: 28px 20px;
+  }
+
+  /* B/A labels */
+  .ba-label-pill {
+    padding: 5px 11px;
+    font-size: 0.68rem;
+  }
+
+  /* Program editorial content */
+  .program-editorial-content h3 {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+  }
+
+  /* Location */
+  .timing-row {
+    font-size: 0.82rem;
   }
 }
 
@@ -578,26 +942,26 @@
     padding-right: 14px;
   }
 
-  .logo-main-text  { font-size: 1.28rem; }
+  .logo-main-text  { font-size: 1.2rem; }
   .logo-sub-text   { font-size: 0.5rem; }
-  .logo-badge      { width: 36px; height: 36px; font-size: 0.9rem; }
+  .logo-badge      { width: 34px; height: 34px; font-size: 0.85rem; min-width: 34px; }
 
   .hero-title {
-    font-size: clamp(2.5rem, 14vw, 3.2rem);
+    font-size: clamp(2.1rem, 13.5vw, 2.8rem);
   }
   .section-title {
-    font-size: clamp(2rem, 12vw, 2.8rem);
+    font-size: clamp(1.7rem, 12vw, 2.4rem);
   }
 
   .hero-cta-group .btn,
   .cta-btn-group .btn {
-    font-size: 0.82rem;
-    padding: 13px 20px;
+    font-size: 0.8rem;
+    padding: 12px 18px;
   }
 
-  .stat-num { font-size: 1.75rem; }
+  .stat-num { font-size: 1.7rem; }
 
-  .ba-slider-wrapper { height: 280px; }
+  .ba-slider-wrapper { height: 240px; }
 
   .tm-chatbot-panel {
     left: 8px;
@@ -606,9 +970,112 @@
   }
 
   .btn-lg {
-    padding: 12px 20px;
-    font-size: 0.84rem;
+    padding: 12px 18px;
+    font-size: 0.82rem;
   }
 
-  .membership-card { padding: 24px 16px; }
+  .membership-card { padding: 22px 14px; }
+
+  .plan-price {
+    font-size: clamp(1.8rem, 9vw, 2.2rem);
+  }
+
+  /* Category / trainer: full width single card visible */
+  .category-card {
+    width: clamp(180px, 90vw, 260px);
+    height: clamp(260px, 70vw, 340px);
+  }
+  .trainer-card {
+    width: clamp(180px, 90vw, 260px);
+    height: clamp(280px, 74vw, 360px);
+  }
+
+  /* Mobile nav */
+  .mobile-nav-overlay {
+    padding: 80px 18px 32px;
+  }
+  .mobile-nav-link {
+    font-size: clamp(1.5rem, 8.5vw, 2.1rem);
+    padding: 8px 0;
+  }
+  .mobile-nav-cta-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .mobile-nav-cta-row .btn {
+    width: 100%;
+  }
+
+  /* Program card */
+  .program-card-editorial {
+    min-height: clamp(280px, 90vw, 440px);
+    padding: 18px 16px;
+  }
+  .program-editorial-content h3 {
+    font-size: clamp(1.8rem, 8.5vw, 2.4rem);
+  }
+
+  /* Footer */
+  .footer-bottom-bar {
+    font-size: 0.72rem;
+  }
+
+  /* Why card */
+  .why-number-card {
+    padding: 24px 16px;
+  }
+  .why-card-title {
+    font-size: clamp(1.5rem, 7vw, 1.9rem);
+  }
+
+  /* Testimonial */
+  .testimonial-quote-card {
+    padding: 22px 14px;
+  }
+  .testimonial-body {
+    font-size: 0.92rem;
+  }
+
+  /* Stats */
+  .hero-stats-row {
+    gap: 10px;
+  }
+
+  /* Location */
+  .location-details-box {
+    padding: 20px 14px;
+  }
+  .loc-title {
+    font-size: clamp(1.5rem, 6vw, 1.9rem);
+  }
+  .timing-row {
+    font-size: 0.78rem;
+  }
+  .location-action-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .location-action-buttons .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Transformation meta */
+  .transformation-meta-box {
+    padding: 20px 14px;
+  }
+  .transform-stat-val {
+    font-size: 1.4rem;
+  }
+
+  /* Calculator */
+  .calculator-box {
+    padding: 20px 14px;
+  }
+
+  /* Modal */
+  .modal-dialog {
+    padding: 24px 14px;
+    width: calc(100% - 12px);
+  }
 }
